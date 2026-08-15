@@ -1,0 +1,186 @@
+/* GuideIn — dark luxury UI */
+.root, .app {
+    -fx-font-family: "Segoe UI";
+    -fx-background-color: #0a0b0d;
+}
+
+.app {
+    -fx-background-color:
+        radial-gradient(center 70% 10%, radius 55%, #17130d 0%, #0d0e10 42%, #090a0c 100%);
+}
+
+.header {
+    -fx-background-color: rgba(10, 11, 13, 0.96);
+    -fx-border-color: transparent transparent rgba(216,179,106,.16) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.brand-mark {
+    -fx-min-width: 44;
+    -fx-min-height: 44;
+    -fx-max-width: 44;
+    -fx-max-height: 44;
+    -fx-background-color: linear-gradient(to bottom right, #e5c77e, #9d7436);
+    -fx-background-radius: 14;
+    -fx-effect: dropshadow(gaussian, rgba(216,179,106,.18), 18, .35, 0, 4);
+}
+
+.brand-mark-text {
+    -fx-text-fill: #17120a;
+    -fx-font-size: 23px;
+    -fx-font-weight: bold;
+}
+
+.brand {
+    -fx-text-fill: #eee8db;
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 2px;
+}
+
+.eyebrow {
+    -fx-text-fill: #9f875e;
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 2px;
+}
+
+.model {
+    -fx-text-fill: #d9d0bf;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1.5px;
+}
+
+.status {
+    -fx-text-fill: #a48c62;
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+}
+
+.conversation {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.conversation > .viewport {
+    -fx-background-color: transparent;
+}
+
+.conversation .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.conversation .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(216,179,106,.22);
+    -fx-background-radius: 8;
+}
+
+.welcome {
+    -fx-background-color: linear-gradient(to bottom right, rgba(28,25,19,.88), rgba(16,16,17,.9));
+    -fx-border-color: rgba(216,179,106,.15);
+    -fx-border-width: 1;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,.32), 30, .25, 0, 12);
+}
+
+.welcome-heading {
+    -fx-text-fill: #f0eadf;
+    -fx-font-size: 32px;
+    -fx-font-weight: 600;
+}
+
+.welcome-body {
+    -fx-text-fill: #8f8b84;
+    -fx-font-size: 13px;
+    -fx-line-spacing: 4px;
+}
+
+.composer-area {
+    -fx-background-color: rgba(9,10,12,.97);
+    -fx-border-color: rgba(216,179,106,.12) transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.composer {
+    -fx-background-color: #111316;
+    -fx-background-radius: 17;
+    -fx-border-color: rgba(216,179,106,.15);
+    -fx-border-radius: 17;
+    -fx-padding: 8;
+}
+
+.input {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e9e3d8;
+    -fx-prompt-text-fill: #66645f;
+    -fx-font-size: 13px;
+    -fx-border-color: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.input .content {
+    -fx-background-color: transparent;
+}
+
+.send-button {
+    -fx-background-color: linear-gradient(to bottom right, #e1c27a, #9b7238);
+    -fx-background-radius: 13;
+    -fx-text-fill: #161108;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.send-button:hover {
+    -fx-background-color: linear-gradient(to bottom right, #f0d78e, #ad8140);
+}
+
+.send-button:disabled {
+    -fx-opacity: .45;
+}
+
+.hint {
+    -fx-text-fill: #53524f;
+    -fx-font-size: 9px;
+    -fx-letter-spacing: 1px;
+}
+
+.user-bubble, .ai-bubble {
+    -fx-padding: 13 17 14 17;
+    -fx-background-radius: 16;
+}
+
+.user-bubble {
+    -fx-background-color: linear-gradient(to bottom right, #9e773d, #705229);
+}
+
+.ai-bubble {
+    -fx-background-color: #151719;
+    -fx-border-color: rgba(216,179,106,.12);
+    -fx-border-radius: 16;
+}
+
+.bubble-label {
+    -fx-text-fill: rgba(255,255,255,.45);
+    -fx-font-size: 8px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1.5px;
+}
+
+.bubble-text {
+    -fx-text-fill: #eee9df;
+    -fx-font-size: 13px;
+    -fx-line-spacing: 3px;
+}
+
+.typing {
+    -fx-padding: 12 17;
+    -fx-background-color: #151719;
+    -fx-background-radius: 14;
+    -fx-max-width: 70;
+}

@@ -1,0 +1,156 @@
+/*
+ * GuideIn — dark luxury theme
+ * Palette: near-black charcoal base, warm gold accent, soft ivory text.
+ */
+
+.root-pane {
+    -fx-background-color: linear-gradient(to bottom right, #0c0c0e, #131318 55%, #0c0c0e);
+}
+
+/* ---------- Header ---------- */
+
+.header {
+    -fx-background-color: #101014;
+    -fx-border-color: transparent transparent #1e1c14 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.title-label {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 28px;
+    -fx-text-fill: #efe6d1;
+    -fx-letter-spacing: 1px;
+}
+
+.subtitle-label {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11px;
+    -fx-text-fill: #8f8567;
+    -fx-letter-spacing: 3px;
+}
+
+.gold-divider {
+    -fx-background-color: linear-gradient(to right, #c9a227, transparent);
+    -fx-max-width: 140px;
+    -fx-pref-width: 140px;
+}
+
+/* ---------- Message list / scroll area ---------- */
+
+.chat-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.chat-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.chat-scroll .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10px;
+}
+
+.chat-scroll .scroll-bar:vertical .thumb {
+    -fx-background-color: #2a271c;
+    -fx-background-radius: 6px;
+}
+
+.chat-scroll .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.chat-scroll .increment-button,
+.chat-scroll .decrement-button {
+    -fx-pref-height: 0;
+    -fx-opacity: 0;
+}
+
+/* ---------- Bubbles ---------- */
+
+.bubble-text {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-padding: 12 16 12 16;
+    -fx-background-radius: 16px;
+    -fx-line-spacing: 3px;
+}
+
+.bubble-user {
+    -fx-background-color: linear-gradient(to bottom right, #2a2410, #1c1a10);
+    -fx-text-fill: #f3ead0;
+    -fx-border-color: #c9a227;
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
+}
+
+.bubble-ai {
+    -fx-background-color: #1a1a1f;
+    -fx-text-fill: #e7e4da;
+    -fx-border-color: #2c2b33;
+    -fx-border-width: 1px;
+    -fx-border-radius: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(201,162,39,0.06), 12, 0, 0, 2);
+}
+
+.bubble-system {
+    -fx-background-color: transparent;
+    -fx-text-fill: #8f8567;
+    -fx-font-size: 12px;
+    -fx-border-color: #33301f;
+    -fx-border-width: 1px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+}
+
+.typing-indicator {
+    -fx-background-color: #1a1a1f;
+    -fx-background-radius: 16px;
+    -fx-max-width: 70px;
+}
+
+/* ---------- Input bar ---------- */
+
+.input-bar {
+    -fx-background-color: #101014;
+    -fx-border-color: #1e1c14 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.chat-input {
+    -fx-background-color: #17171c;
+    -fx-text-fill: #efe6d1;
+    -fx-prompt-text-fill: #6b6753;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-background-radius: 22px;
+    -fx-padding: 10 18 10 18;
+    -fx-border-color: #2a2820;
+    -fx-border-radius: 22px;
+    -fx-border-width: 1px;
+}
+
+.chat-input:focused {
+    -fx-border-color: #c9a227;
+    -fx-effect: dropshadow(gaussian, rgba(201,162,39,0.35), 10, 0, 0, 0);
+}
+
+.send-button {
+    -fx-background-color: linear-gradient(to bottom right, #d4af37, #a3831c);
+    -fx-text-fill: #14130c;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 22px;
+    -fx-padding: 10 24 10 24;
+    -fx-cursor: hand;
+}
+
+.send-button:hover {
+    -fx-background-color: linear-gradient(to bottom right, #e3c158, #b8963a);
+    -fx-effect: dropshadow(gaussian, rgba(212,175,55,0.45), 14, 0, 0, 0);
+}
+
+.send-button:pressed {
+    -fx-background-color: #a3831c;
+}
