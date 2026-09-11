@@ -1,0 +1,57 @@
+{
+  "phase": 1,
+  "status": "FAIL",
+  "phase_2_readiness": "NOT_READY",
+  "commit": "c8b5cffcf108984163aec689bcc9e695fde65f5e",
+  "evaluated_at": "2026-09-11T16:53:10+05:30",
+  "database": {
+    "target": "PostgreSQL 18.x",
+    "executed_version": null,
+    "status": "NOT_EXECUTED",
+    "reason": "No usable Docker engine or local PostgreSQL server was available."
+  },
+  "build": {
+    "status": "PASS",
+    "command": "mvn clean verify"
+  },
+  "tests": {
+    "total_discovered": 70,
+    "passed": 62,
+    "failed": 0,
+    "skipped": 8,
+    "unit_and_architecture": 62,
+    "postgresql_integration": 8
+  },
+  "security_gates": {
+    "cross_tenant_reads": null,
+    "cross_tenant_writes": null,
+    "unauthorized_protected_actions": null,
+    "audit_mutations_runtime_role": null,
+    "missing_tenant_context_exposures": null,
+    "connection_pool_tenant_leaks": null,
+    "outbox_atomicity_violations": null,
+    "duplicate_job_effects": null,
+    "architecture_module_violations": 0,
+    "secret_leakage_unit_tests": 0,
+    "unhandled_authorization_matrix_cells": 0,
+    "flyway_validation_errors": null
+  },
+  "performance": {
+    "authorization_decision_p50_ms": null,
+    "authorization_decision_p95_ms": null,
+    "simple_tenant_query_p50_ms": null,
+    "simple_tenant_query_p95_ms": null,
+    "audit_append_p50_ms": null,
+    "audit_append_p95_ms": null,
+    "job_claim_throughput_per_second": null,
+    "outbox_claim_throughput_per_second": null,
+    "status": "NOT_EXECUTED"
+  },
+  "known_limitations": [
+    "All PostgreSQL-backed zero-tolerance gates are unmeasured because Testcontainers could not find Docker.",
+    "The full OIDC issuer/JWK acceptance flow has not run against a live identity provider.",
+    "The 26-step acceptance demonstration and dependency interruption/recovery sequence have not run.",
+    "Process-local pending/depth gauges reset on application restart and are operational hints, not durable totals.",
+    "No production performance claim is supported by this evaluation."
+  ]
+}
