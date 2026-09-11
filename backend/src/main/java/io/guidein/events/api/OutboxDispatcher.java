@@ -1,0 +1,8 @@
+package io.guidein.events.api;
+
+import java.util.UUID;
+
+public interface OutboxDispatcher {
+    boolean dispatchNext(UUID tenantId, OutboxConsumer consumer);
+}
+

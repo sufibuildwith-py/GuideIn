@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://guidein.io/contracts/events/event-envelope-v1.schema.json",
+  "title": "GuideIn Event Envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "event_type", "event_version", "tenant_id", "aggregate_type", "aggregate_id", "correlation_id", "occurred_at", "payload_hash", "payload"],
+  "properties": {
+    "event_id": { "type": "string", "format": "uuid" },
+    "event_type": { "type": "string", "minLength": 1 },
+    "event_version": { "type": "integer", "minimum": 1 },
+    "tenant_id": { "type": "string", "format": "uuid" },
+    "aggregate_type": { "type": "string", "minLength": 1 },
+    "aggregate_id": { "type": "string", "format": "uuid" },
+    "correlation_id": { "type": "string", "format": "uuid" },
+    "causation_id": { "type": ["string", "null"], "format": "uuid" },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "payload_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "payload": { "type": "object" }
+  }
+}

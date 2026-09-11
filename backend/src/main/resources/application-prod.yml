@@ -1,0 +1,20 @@
+guidein:
+  production: true
+  security:
+    issuer-uri: ${GUIDEIN_OIDC_ISSUER}
+    jwk-set-uri: ${GUIDEIN_OIDC_JWK_SET_URI}
+    audience: ${GUIDEIN_OIDC_AUDIENCE}
+spring:
+  datasource:
+    username: ${GUIDEIN_DB_USER}
+    password: ${GUIDEIN_DB_PASSWORD}
+  flyway:
+    user: ${GUIDEIN_MIGRATOR_USER}
+    password: ${GUIDEIN_MIGRATOR_PASSWORD}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${GUIDEIN_OIDC_ISSUER}
+          jwk-set-uri: ${GUIDEIN_OIDC_JWK_SET_URI}
+          audiences: ${GUIDEIN_OIDC_AUDIENCE}

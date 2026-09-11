@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: guidein
+  datasource:
+    url: ${GUIDEIN_DB_URL:jdbc:postgresql://localhost:5432/guidein}
+    username: ${GUIDEIN_DB_USER:guidein_app}
+    password: ${GUIDEIN_DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: ${GUIDEIN_DB_POOL_SIZE:10}
+      auto-commit: false
+  flyway:
+    enabled: true
+    url: ${GUIDEIN_DB_URL:jdbc:postgresql://localhost:5432/guidein}
+    user: ${GUIDEIN_MIGRATOR_USER:guidein_migrator}
+    password: ${GUIDEIN_MIGRATOR_PASSWORD:}
+    validate-migration-naming: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${GUIDEIN_OIDC_ISSUER:http://localhost:8081/realms/guidein}
+          jwk-set-uri: ${GUIDEIN_OIDC_JWK_SET_URI:http://localhost:8081/realms/guidein/protocol/openid-connect/certs}
+          audiences: ${GUIDEIN_OIDC_AUDIENCE:guidein-api}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState,db
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+server:
+  error:
+    include-message: never
+    include-stacktrace: never
+    include-binding-errors: never
+logging:
+  structured:
+    format:
+      console: logstash
+guidein:
+  security:
+    issuer-uri: ${GUIDEIN_OIDC_ISSUER:http://localhost:8081/realms/guidein}
+    jwk-set-uri: ${GUIDEIN_OIDC_JWK_SET_URI:http://localhost:8081/realms/guidein/protocol/openid-connect/certs}
+    audience: ${GUIDEIN_OIDC_AUDIENCE:guidein-api}
+  outbox:
+    lease-duration: 30s
+  jobs:
+    lease-duration: 30s
