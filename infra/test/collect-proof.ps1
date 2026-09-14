@@ -8,7 +8,7 @@ $source = Get-Content 'backend/src/test/java/io/guidein/integration/PlatformKern
 $methods = [regex]::Matches($source, '@Test\s+void\s+(\w+)') | ForEach-Object { $_.Groups[1].Value }
 foreach ($method in $methods) {
     [xml]$xml = Get-Content "evaluation/individual-proof/$method.xml"
-    $case = @($xml.testsuite.testcase) | Where-Object { $_.name -eq $method }
+    $case = @($xml.testsuite.testcase) | Where-Object { ($_.name -split '\(', 2)[0] -eq $method }
     if (-not $case -or $case.failure -or $case.error -or $case.skipped) { throw "Individual proof failed or absent: $method" }
     $individuals += [ordered]@{test=$method;status='PASS';duration_seconds=[double]$case.time;failure_reason=$null}
 }

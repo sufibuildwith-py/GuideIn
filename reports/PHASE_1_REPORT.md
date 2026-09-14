@@ -1,5 +1,88 @@
 # GuideIn Phase 1 — Platform Kernel Report
 
+## Phase-1 PostgreSQL Proof Completion
+
+**PASS — Phase 2 readiness: READY.** No Phase 2 implementation was started. The final clean repository run completed on **2026-09-12 at 01:57:47 +05:30**; evidence was collected on 2026-09-15. All **80/80 tests passed**, with **0 failures, 0 errors, and 0 skipped tests**: 62 unit/architecture cases plus 18 PostgreSQL proof methods. All 18 proof methods also passed individually before the clean run. No unresolved P0/P1 Phase-1 defect remains from this proof pass.
+
+### Revision and evidence provenance
+
+- Implementation baseline: `c8b5cffcf108984163aec689bcc9e695fde65f5e`.
+- Earlier incomplete evidence baseline: `0d2a81bd9c21347d8a130f23eed605410b607e07`.
+- Tested proof/fix commit: `4f7e4424272c4dac57f1fce2fb9eb5f1ba0adf87`.
+- This report and [machine-readable results](../evaluation/phase1-results.json) are recorded in the subsequent evidence commit, without rewriting the tested commit or earlier history. The JSON `final_proof_commit` identifies the tested code revision.
+- Final command: `mvn --batch-mode --no-transfer-progress "-Dmaven.repo.local=C:\Users\xtrar\Desktop\Java projects\GuideIn\.m2\repository" clean verify`; BUILD SUCCESS, approximately 2 minutes 33 seconds. Raw local log: `.m2/phase1-final-clean.log`; raw test reports: `backend/target/surefire-reports` and `backend/target/failsafe-reports`. Durable per-case durations and all measurements are embedded in the evaluation JSON.
+
+### Fresh PostgreSQL verification environment
+
+All previous disposable proof containers were removed before this run. Testcontainers started a new `postgres:18.6-alpine` instance, reporting PostgreSQL 18.6, x86_64 Linux musl, database `guidein`. Flyway applied V1–V8 from an empty schema using `guidein_migrator`, then validation passed. Migration failures: **0**; checksum/validation failures: **0**; manual schema patches: **0**. No migration was rewritten. Test-only tampering and fixture resets operated solely on disposable data.
+
+Both `guidein_app` and `guidein_migrator` are distinct non-superuser roles with no BYPASSRLS, CREATEDB, or CREATEROLE. All eight protected tables are owned by `guidein_migrator`, with ENABLE and FORCE RLS true. Runtime credentials cannot create schema objects or mutate protected schema/policies. Seven forbidden operations, including audit UPDATE/DELETE, were rejected. Role attributes, table ownership/RLS flags, and all eight migration checksums are recorded in the JSON.
+
+### Measured exit gates
+
+| Gate | Executed evidence | Violations |
+|---|---|---:|
+| Cross-tenant reads | 10,000 randomized attempts through application/database paths | 0 |
+| Cross-tenant writes | 10,000 INSERT attempts and cross-tenant UPDATE | 0 |
+| Unauthorized protected actions | 281 denied attempts; complete 49-cell role/capability matrix plus tenant mismatch cases | 0 |
+| Missing tenant context | All eight protected tables fail closed | 0 |
+| Pooled tenant context | Pool size 1; 2,000 alternations / 4,000 operations | 0 |
+| Runtime audit mutation / forbidden schema operations | Actual restricted runtime credentials | 0 / 0 |
+| Audit tampering | Payload, previous hash, sequence, event hash, middle deletion, final deletion | 0 undetected |
+| Audit concurrent verification | 210 appends and 100 concurrent verifications, single-snapshot head/rows | 0 false failures |
+| Outbox atomicity | Both domain/outbox failure directions roll back all writes | 0 |
+| Outbox recovery | Crash rollback, dispatch exception, retry; one successful recovery | 0 lost events |
+| Job concurrency | 10,000 created, 10,000 completed, 0 dead; eight workers and eight connections | 0 lost / duplicate / simultaneous owners |
+| Job lease recovery | Reclaim, stale token rejection, final-attempt expired crash becomes DEAD | 0 stale completions |
+| Database outage | Protected operation failed, readiness 503, liveness 200; restored database and successful protected operation | 0 false successes |
+| Observability | Actual HTTP logs contain trace/span/request/correlation IDs; secret canaries absent | 0 secret leaks |
+| Transaction-aware metrics | Real rollback, commit, and terminal-operation deltas verified | 0 rolled-back writes counted |
+
+Concurrency total runtime was **60.5885471 seconds**, including enqueue; claim/completion runtime was **26.9442285 seconds** (371.137 completions/second locally). Overlapping claims use the production SKIP LOCKED implementation and randomized delays. The separate final-attempt crash test reached DEAD deterministically during the next claim and rejected stale completion.
+
+Signed JWT proof ran through real HTTP and an RSA/JWK issuer fixture, not a mocked decoder. Valid membership succeeded. Missing credentials, malformed JWT, untrusted signing key, wrong issuer, wrong audience, and expired JWT were rejected. A valid identity without membership was denied. Identity remained keyed by issuer + subject despite email changes; a different subject sharing an email did not inherit access. SELECTED_REPOSITORIES allowed the selected repository and denied the other; ALL_REPOSITORIES allowed the additional repository. Cross-tenant resource UUIDs and routes remained inaccessible.
+
+### Individual proof execution
+
+All entries below passed individually with no failure reason. Exact unrounded durations and the separate final-suite case durations are in the JSON.
+
+| Proof method (short description) | Individual seconds | Result |
+|---|---:|---|
+| 10,000 cross-tenant reads | 33.97 | PASS |
+| 10,000 cross-tenant writes | 1.37 | PASS |
+| Single-connection isolation | 13.72 | PASS |
+| Missing tenant context | 1.40 | PASS |
+| Runtime role restrictions | 1.49 | PASS |
+| Deterministic audit chain and tamper | 1.46 | PASS |
+| Both outbox rollback directions | 1.34 | PASS |
+| 10,000 jobs / eight workers | 74.78 | PASS |
+| Six audit tamper variants including tail | 2.34 | PASS |
+| Concurrent audit append/verify | 3.20 | PASS |
+| Stale leases and final-attempt crash | 1.52 | PASS |
+| Outbox crash and recovery | 1.71 | PASS |
+| PostgreSQL interruption and recovery | 3.38 | PASS |
+| Fresh Flyway / database role environment | 1.40 | PASS |
+| Real HTTP observability | 2.00 | PASS |
+| Local performance measurements | 8.11 | PASS |
+| Commit-aware metrics | 1.96 | PASS |
+| JWT HTTP and repository scopes | 5.61 | PASS |
+
+### Defects found and preserved
+
+The full expected/actual behavior, root cause, impact, fix, and regression proof are retained in [Phase 1 proof findings](PHASE_1_PROOF_FINDINGS.md): Spring final-class transaction proxy startup; Boot-4 Flyway activation; authenticated JWT handler binding; audit tail deletion; concurrent audit snapshot consistency; null-role deny handling; final-attempt worker crash recovery; and commit-aware queue/audit metrics. The interruption test was corrected to accept the actual Spring transaction-start exception with a SQL cause, rather than requiring a particular deepest wrapper. Its no-false-success invariant was retained. Docker startup interruptions are documented as environmental failures, not passing tests.
+
+During evidence collection only, the collector needed to recognize JUnit's `method(CapturedOutput)` name suffix. This was a report-parser correction, not a test or implementation change; the original XML already recorded PASS. No test assertions were weakened.
+
+### Scope and limitations
+
+RLS, JWT/OIDC authentication, resource scopes, role isolation, audit integrity, transactional outbox, job concurrency/recovery, PostgreSQL interruption/recovery, observability, and liveness/readiness all **PASS** within the executed Phase-1 gates. Local performance samples are retained in JSON and are not production capacity claims. OTel agent 2.28.1 produced local context/log linkage with exporters disabled; remote collector delivery is not claimed. Pending/depth gauges remain process-local hints. Audit is tamper-evident relative to the persisted head, not externally anchored. Outbox remains at-least-once and requires idempotent consumers.
+
+**Stop condition reached: Phase 1 proved; no ingestion, webhooks, or Phase 2 work started.** The earlier report below is preserved verbatim as historical evidence; its FAIL/NOT READY statements describe the earlier unexecuted state, not the completed proof above.
+
+---
+
+## Historical incomplete report — 2026-09-11
+
 Evaluation date: 2026-09-11 (Asia/Calcutta)
 
 ## 1–3. Executive result, verdict, and exact revision

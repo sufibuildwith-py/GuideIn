@@ -1,57 +1,883 @@
 {
   "phase": 1,
-  "status": "FAIL",
-  "phase_2_readiness": "NOT_READY",
-  "commit": "c8b5cffcf108984163aec689bcc9e695fde65f5e",
-  "evaluated_at": "2026-09-11T16:53:10+05:30",
-  "database": {
-    "target": "PostgreSQL 18.x",
-    "executed_version": null,
-    "status": "NOT_EXECUTED",
-    "reason": "No usable Docker engine or local PostgreSQL server was available."
-  },
+  "status": "PASS",
+  "phase_2_readiness": "READY",
+  "evaluated_at": "2026-09-15T04:54:20.1508408+05:30",
+  "implementation_baseline_commit": "c8b5cffcf108984163aec689bcc9e695fde65f5e",
+  "evidence_baseline_commit": "0d2a81bd9c21347d8a130f23eed605410b607e07",
+  "final_proof_commit": "4f7e4424272c4dac57f1fce2fb9eb5f1ba0adf87",
+  "history": [
+    {
+      "date": "2026-09-11",
+      "status": "FAIL",
+      "readiness": "NOT_READY",
+      "passed": 62,
+      "skipped": 8,
+      "reason": "PostgreSQL gates not executed"
+    }
+  ],
   "build": {
     "status": "PASS",
-    "command": "mvn clean verify"
+    "command": "mvn --batch-mode --no-transfer-progress clean verify"
   },
   "tests": {
-    "total_discovered": 70,
-    "passed": 62,
+    "total": 80,
+    "passed": 80,
     "failed": 0,
-    "skipped": 8,
-    "unit_and_architecture": 62,
-    "postgresql_integration": 8
+    "skipped": 0,
+    "individual_proof_tests": 18
   },
   "security_gates": {
-    "cross_tenant_reads": null,
-    "cross_tenant_writes": null,
-    "unauthorized_protected_actions": null,
-    "audit_mutations_runtime_role": null,
-    "missing_tenant_context_exposures": null,
-    "connection_pool_tenant_leaks": null,
-    "outbox_atomicity_violations": null,
-    "duplicate_job_effects": null,
-    "architecture_module_violations": 0,
-    "secret_leakage_unit_tests": 0,
-    "unhandled_authorization_matrix_cells": 0,
-    "flyway_validation_errors": null
+    "cross_tenant_reads": 0,
+    "cross_tenant_writes": 0,
+    "unauthorized_protected_actions": 0,
+    "audit_mutations_runtime_role": 0,
+    "tenant_context_leaks": 0,
+    "missing_tenant_context_exposures": 0,
+    "outbox_atomicity_violations": 0,
+    "duplicate_job_effects": 0,
+    "lost_jobs": 0,
+    "simultaneous_job_owners": 0,
+    "undetected_audit_tampering": 0,
+    "forbidden_schema_operations": 0,
+    "secret_leakage": 0,
+    "flyway_validation_errors": 0
   },
-  "performance": {
-    "authorization_decision_p50_ms": null,
-    "authorization_decision_p95_ms": null,
-    "simple_tenant_query_p50_ms": null,
-    "simple_tenant_query_p95_ms": null,
-    "audit_append_p50_ms": null,
-    "audit_append_p95_ms": null,
-    "job_claim_throughput_per_second": null,
-    "outbox_claim_throughput_per_second": null,
-    "status": "NOT_EXECUTED"
+  "measurements": {
+    "environment": {
+      "version": "PostgreSQL 18.6 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+      "database": "guidein",
+      "roles": [
+        {
+          "createdb": false,
+          "superuser": false,
+          "bypassrls": false,
+          "role": "guidein_app",
+          "createrole": false
+        },
+        {
+          "createdb": false,
+          "superuser": false,
+          "bypassrls": false,
+          "role": "guidein_migrator",
+          "createrole": false
+        }
+      ],
+      "tables": [
+        {
+          "table": "audit_events",
+          "force_rls": true,
+          "owner": "guidein_migrator",
+          "rls": true
+        },
+        {
+          "table": "memberships",
+          "force_rls": true,
+          "owner": "guidein_migrator",
+          "rls": true
+        },
+        {
+          "table": "tenants",
+          "force_rls": true,
+          "owner": "guidein_migrator",
+          "rls": true
+        },
+        {
+          "table": "audit_heads",
+          "force_rls": true,
+          "owner": "guidein_migrator",
+          "rls": true
+        },
+        {
+          "table": "membership_repository_scopes",
+          "force_rls": true,
+          "owner": "guidein_migrator",
+          "rls": true
+        },
+        {
+          "table": "repositories",
+          "force_rls": true,
+          "owner": "guidein_migrator",
+          "rls": true
+        },
+        {
+          "table": "job_queue",
+          "force_rls": true,
+          "owner": "guidein_migrator",
+          "rls": true
+        },
+        {
+          "table": "outbox_events",
+          "force_rls": true,
+          "owner": "guidein_migrator",
+          "rls": true
+        }
+      ],
+      "migrations": [
+        {
+          "checksum": -1701008200,
+          "version": "1",
+          "success": true
+        },
+        {
+          "checksum": 1497221635,
+          "version": "2",
+          "success": true
+        },
+        {
+          "checksum": 527494907,
+          "version": "3",
+          "success": true
+        },
+        {
+          "checksum": 17527445,
+          "version": "4",
+          "success": true
+        },
+        {
+          "checksum": 1369271597,
+          "version": "5",
+          "success": true
+        },
+        {
+          "checksum": 725807977,
+          "version": "6",
+          "success": true
+        },
+        {
+          "checksum": 1376102304,
+          "version": "7",
+          "success": true
+        },
+        {
+          "checksum": -338541424,
+          "version": "8",
+          "success": true
+        }
+      ],
+      "validation_errors": 0,
+      "manual_schema_patches": 0
+    },
+    "tenant-reads": {
+      "seed": 1806,
+      "attempts": 10000,
+      "cross_tenant_reads": 0
+    },
+    "tenant-writes": {
+      "insert_attempts": 10000,
+      "update_attempts": 1,
+      "cross_tenant_writes": 0
+    },
+    "authorization": {
+      "scope_modes_tested": [
+        "ALL_REPOSITORIES",
+        "SELECTED_REPOSITORIES"
+      ],
+      "identity_uses_issuer_subject": true,
+      "invalid_jwt_cases": 6,
+      "unauthorized_protected_actions": 0,
+      "denied_attempts": 281
+    },
+    "missing-context": {
+      "tables": 8,
+      "missing_tenant_context_exposures": 0
+    },
+    "pool": {
+      "iterations": 2000,
+      "pool_size": 1,
+      "operations": 4000,
+      "tenant_context_leaks": 0
+    },
+    "runtime-role": {
+      "audit_mutations_runtime_role": 0,
+      "forbidden_schema_operations": 0,
+      "forbidden_operations": 7
+    },
+    "audit": {
+      "undetected_audit_tampering": 0,
+      "tampering_cases": 6
+    },
+    "audit-concurrency": {
+      "concurrent_verifications": 100,
+      "false_integrity_failures": 0,
+      "appended": 210
+    },
+    "atomicity": {
+      "outbox_atomicity_violations": 0,
+      "rollback_directions": 2
+    },
+    "outbox-recovery": {
+      "successful_recovery": 1,
+      "lost_events": 0
+    },
+    "concurrency": {
+      "total_runtime_seconds": 60.5885471,
+      "lost_jobs": 0,
+      "simultaneous_valid_owners": 0,
+      "jobs_dead": 0,
+      "jobs": 10000,
+      "workers": 8,
+      "jobs_completed": 10000,
+      "pool_size": 8,
+      "claim_runtime_seconds": 26.9442285,
+      "claim_and_complete_per_second": 371.1369950711337,
+      "duplicate_job_effects": 0
+    },
+    "leases": {
+      "exhausted_crash_dead": 1,
+      "stale_completions": 0
+    },
+    "availability": {
+      "liveness_down": 200,
+      "readiness_up": 200,
+      "recovered": true,
+      "readiness_down": 503,
+      "false_success_operations": 0
+    },
+    "observability": {
+      "trace_id": "9b9aa7e301b2b89e43807373215c94b9",
+      "request_id": "7884ead6-3b7a-4aa3-ac69-bddd4b317593",
+      "correlation_id": "50000000-0000-0000-0000-000000000001",
+      "exporters": "none (local trace/context proof)",
+      "span_id": "806d2e4eaab26c45",
+      "secret_leaks": 0,
+      "agent_version": "2.28.1"
+    },
+    "transaction-metrics": {
+      "commit_and_completion_deltas_verified": true,
+      "rolled_back_writes_counted": 0
+    },
+    "performance": {
+      "authorization": {
+        "operations_per_second": 482741.9744146754,
+        "p95_ms": 0.0032,
+        "p50_ms": 0.0012,
+        "samples": 1000
+      },
+      "tenant_query": {
+        "operations_per_second": 220.875470851285,
+        "p95_ms": 6.3685,
+        "p50_ms": 4.4388,
+        "samples": 200
+      },
+      "audit_append": {
+        "operations_per_second": 87.4428713860517,
+        "p95_ms": 18.2909,
+        "p50_ms": 10.8686,
+        "samples": 100
+      },
+      "job_claim": {
+        "operations_per_second": 171.92772674150967,
+        "p95_ms": 8.3677,
+        "p50_ms": 5.5552,
+        "samples": 200
+      },
+      "outbox_dispatch": {
+        "operations_per_second": 209.35062471796545,
+        "p95_ms": 6.1145,
+        "p50_ms": 4.7284,
+        "samples": 200
+      },
+      "scope": "Local Windows/Docker/Java21 with OTel agent; assertion overhead included; no production claim"
+    }
   },
+  "individual_tests": [
+    {
+      "test": "applicationAndDatabasePathsDenyTenThousandCrossTenantReads",
+      "status": "PASS",
+      "duration_seconds": 33.966,
+      "failure_reason": null
+    },
+    {
+      "test": "databasePathDeniesTenThousandCrossTenantWrites",
+      "status": "PASS",
+      "duration_seconds": 1.371,
+      "failure_reason": null
+    },
+    {
+      "test": "oneConnectionPoolAlternationNeverLeaksTenantState",
+      "status": "PASS",
+      "duration_seconds": 13.723,
+      "failure_reason": null
+    },
+    {
+      "test": "everyTenantProtectedTableFailsClosedWithoutContext",
+      "status": "PASS",
+      "duration_seconds": 1.395,
+      "failure_reason": null
+    },
+    {
+      "test": "runtimeRoleCannotOwnOrAlterProtectedTablesOrMutateAuditHistory",
+      "status": "PASS",
+      "duration_seconds": 1.491,
+      "failure_reason": null
+    },
+    {
+      "test": "auditChainIsDeterministicAndTamperingIsDetected",
+      "status": "PASS",
+      "duration_seconds": 1.458,
+      "failure_reason": null
+    },
+    {
+      "test": "domainAndOutboxRowsCannotSplitAcrossRollback",
+      "status": "PASS",
+      "duration_seconds": 1.339,
+      "failure_reason": null
+    },
+    {
+      "test": "tenThousandJobsHaveOneSemanticCompletionUnderEightWorkers",
+      "status": "PASS",
+      "duration_seconds": 74.777,
+      "failure_reason": null
+    },
+    {
+      "test": "allAuditTamperingVariantsIncludingTailDeletionAreDetected",
+      "status": "PASS",
+      "duration_seconds": 2.344,
+      "failure_reason": null
+    },
+    {
+      "test": "concurrentAuditAppendsAndVerificationShareConsistentSnapshots",
+      "status": "PASS",
+      "duration_seconds": 3.202,
+      "failure_reason": null
+    },
+    {
+      "test": "staleWorkersCannotCompleteReclaimedJobsAndLastAttemptCrashesBecomeDead",
+      "status": "PASS",
+      "duration_seconds": 1.52,
+      "failure_reason": null
+    },
+    {
+      "test": "outboxCrashRollbackAndDispatchFailureRemainRecoverable",
+      "status": "PASS",
+      "duration_seconds": 1.714,
+      "failure_reason": null
+    },
+    {
+      "test": "postgresStopMakesReadinessFailWhileLivenessSurvivesAndRecoveryWorks",
+      "status": "PASS",
+      "duration_seconds": 3.376,
+      "failure_reason": null
+    },
+    {
+      "test": "postgresEnvironmentAndFreshFlywayHistoryProveRoleSeparation",
+      "status": "PASS",
+      "duration_seconds": 1.402,
+      "failure_reason": null
+    },
+    {
+      "test": "observabilityLinksRealHttpTraceAndCorrelationWithoutSecrets",
+      "status": "PASS",
+      "duration_seconds": 2.002,
+      "failure_reason": null
+    },
+    {
+      "test": "localPerformanceBaselineMeasuresKernelOperations",
+      "status": "PASS",
+      "duration_seconds": 8.11,
+      "failure_reason": null
+    },
+    {
+      "test": "transactionMetricsDoNotReportRolledBackWritesAsCommitted",
+      "status": "PASS",
+      "duration_seconds": 1.955,
+      "failure_reason": null
+    },
+    {
+      "test": "realJwtHttpTenantAndSelectedScopeBoundariesDenyUnauthorizedActions",
+      "status": "PASS",
+      "duration_seconds": 5.611,
+      "failure_reason": null
+    }
+  ],
+  "full_suite": [
+    {
+      "class": "io.guidein.architecture.ModuleArchitectureTest",
+      "test": "moduleBoundariesAreAcyclicAndOnlyApisAreImported",
+      "duration_seconds": 2.477,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "tenantMismatchAlwaysDenies(AuthorizationRole)[1]",
+      "duration_seconds": 0.087,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "tenantMismatchAlwaysDenies(AuthorizationRole)[2]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "tenantMismatchAlwaysDenies(AuthorizationRole)[3]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "tenantMismatchAlwaysDenies(AuthorizationRole)[4]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "tenantMismatchAlwaysDenies(AuthorizationRole)[5]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "tenantMismatchAlwaysDenies(AuthorizationRole)[6]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "tenantMismatchAlwaysDenies(AuthorizationRole)[7]",
+      "duration_seconds": 0.003,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[1]",
+      "duration_seconds": 0.007,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[2]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[3]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[4]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[5]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[6]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[7]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[8]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[9]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[10]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[11]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[12]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[13]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[14]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[15]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[16]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[17]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[18]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[19]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[20]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[21]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[22]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[23]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[24]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[25]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[26]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[27]",
+      "duration_seconds": 0.0,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[28]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[29]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[30]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[31]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[32]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[33]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[34]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[35]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[36]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[37]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[38]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[39]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[40]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[41]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[42]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[43]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[44]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[45]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[46]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[47]",
+      "duration_seconds": 0.001,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[48]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.authorization.application.AuthorizationMatrixTest",
+      "test": "everyRoleCapabilityCellIsExplicit(AuthorizationRole, Capability, boolean)[49]",
+      "duration_seconds": 0.002,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.platform.infrastructure.ApiExceptionHandlerTest",
+      "test": "unexpectedErrorsNeverExposeExceptionOrSecretCanary",
+      "duration_seconds": 0.051,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.platform.infrastructure.RequestIdentityFilterTest",
+      "test": "rejectsMalformedIncomingCorrelationIdentifier",
+      "duration_seconds": 0.017,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.platform.infrastructure.RequestIdentityFilterTest",
+      "test": "preservesOnlyValidCorrelationIdentifiersAndAlwaysCreatesRequestIdentifier",
+      "duration_seconds": 0.003,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.platform.infrastructure.Rfc8785CanonicalJsonTest",
+      "test": "mapInsertionOrderCannotChangeCanonicalBytes",
+      "duration_seconds": 0.037,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.platform.infrastructure.Rfc8785CanonicalJsonTest",
+      "test": "followsOfficialRfc8785PrimitiveAndOrderingVector",
+      "duration_seconds": 0.003,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "everyTenantProtectedTableFailsClosedWithoutContext",
+      "duration_seconds": 1.546,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "transactionMetricsDoNotReportRolledBackWritesAsCommitted",
+      "duration_seconds": 0.822,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "localPerformanceBaselineMeasuresKernelOperations",
+      "duration_seconds": 6.252,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "concurrentAuditAppendsAndVerificationShareConsistentSnapshots",
+      "duration_seconds": 2.165,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "auditChainIsDeterministicAndTamperingIsDetected",
+      "duration_seconds": 0.79,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "observabilityLinksRealHttpTraceAndCorrelationWithoutSecrets(CapturedOutput)",
+      "duration_seconds": 1.293,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "domainAndOutboxRowsCannotSplitAcrossRollback",
+      "duration_seconds": 0.683,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "allAuditTamperingVariantsIncludingTailDeletionAreDetected",
+      "duration_seconds": 1.017,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "databasePathDeniesTenThousandCrossTenantWrites",
+      "duration_seconds": 0.66,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "postgresEnvironmentAndFreshFlywayHistoryProveRoleSeparation",
+      "duration_seconds": 0.677,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "runtimeRoleCannotOwnOrAlterProtectedTablesOrMutateAuditHistory",
+      "duration_seconds": 0.703,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "tenThousandJobsHaveOneSemanticCompletionUnderEightWorkers",
+      "duration_seconds": 61.172,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "outboxCrashRollbackAndDispatchFailureRemainRecoverable",
+      "duration_seconds": 0.544,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "postgresStopMakesReadinessFailWhileLivenessSurvivesAndRecoveryWorks",
+      "duration_seconds": 3.912,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "applicationAndDatabasePathsDenyTenThousandCrossTenantReads",
+      "duration_seconds": 28.669,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "realJwtHttpTenantAndSelectedScopeBoundariesDenyUnauthorizedActions",
+      "duration_seconds": 4.505,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "staleWorkersCannotCompleteReclaimedJobsAndLastAttemptCrashesBecomeDead",
+      "duration_seconds": 0.671,
+      "status": "PASS"
+    },
+    {
+      "class": "io.guidein.integration.PlatformKernelIntegrationIT",
+      "test": "oneConnectionPoolAlternationNeverLeaksTenantState",
+      "duration_seconds": 10.91,
+      "status": "PASS"
+    }
+  ],
   "known_limitations": [
-    "All PostgreSQL-backed zero-tolerance gates are unmeasured because Testcontainers could not find Docker.",
-    "The full OIDC issuer/JWK acceptance flow has not run against a live identity provider.",
-    "The 26-step acceptance demonstration and dependency interruption/recovery sequence have not run.",
-    "Process-local pending/depth gauges reset on application restart and are operational hints, not durable totals.",
-    "No production performance claim is supported by this evaluation."
+    "OTel agent trace/MDC propagation was measured locally; remote collector delivery was not tested.",
+    "Pending/depth gauges are process-local hints, not durable global queue totals.",
+    "Audit chain detects tampering relative to its persisted head; external anchoring/signatures remain outside Phase 1.",
+    "Outbox delivery is at-least-once; production consumers must implement idempotent effects.",
+    "Performance measurements include assertions and local Docker overhead; no production capacity claim."
   ]
 }
