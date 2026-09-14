@@ -36,14 +36,24 @@ final class MicrometerKernelMetrics implements KernelMetrics {
         authorizationDenied.increment();
         if (crossTenant) crossTenantDenied.increment();
     }
-    public void auditAppended() { auditAppend.increment(); }
+    public void auditAppended() { afterCommit(auditAppend::increment); }
     public void auditIntegrityFailure() { auditIntegrityFailure.increment(); }
-    public void outboxAppended() { outboxPending.incrementAndGet(); }
-    public void outboxPublished() { outboxPending.updateAndGet(value -> Math.max(0, value - 1)); }
+    public void outboxAppended() { afterCommit(outboxPending::incrementAndGet); }
+    public void outboxPublished() { afterCommit(() -> outboxPending.updateAndGet(value -> Math.max(0, value - 1))); }
     public void outboxDispatchFailure() { outboxDispatchFailure.increment(); }
-    public void jobEnqueued() { jobQueueDepth.incrementAndGet(); }
-    public void jobTerminal() { jobQueueDepth.updateAndGet(value -> Math.max(0, value - 1)); }
-    public void jobClaimed() { jobClaim.increment(); }
-    public void jobRetried() { jobRetry.increment(); }
-    public void jobDead() { jobDead.increment(); }
+    public void jobEnqueued() { afterCommit(jobQueueDepth::incrementAndGet); }
+    public void jobTerminal() { afterCommit(() -> jobQueueDepth.updateAndGet(value -> Math.max(0, value - 1))); }
+    public void jobClaimed() { afterCommit(jobClaim::increment); }
+    public void jobRetried() { afterCommit(jobRetry::increment); }
+    public void jobDead() { afterCommit(jobDead::increment); }
+
+    private void afterCommit(Runnable update) {
+        if (org.springframework.transaction.support.TransactionSynchronizationManager.isSynchronizationActive()
+                && org.springframework.transaction.support.TransactionSynchronizationManager.isActualTransactionActive()) {
+            org.springframework.transaction.support.TransactionSynchronizationManager.registerSynchronization(
+                    new org.springframework.transaction.support.TransactionSynchronization() {
+                        @Override public void afterCommit() { update.run(); }
+                    });
+        } else { update.run(); }
+    }
 }

@@ -7,6 +7,7 @@ import io.guidein.tenancy.api.RepositoryView;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +25,13 @@ final class ApiController {
     }
 
     @GetMapping("/me")
-    Map<String, Object> me(Jwt jwt) {
+    Map<String, Object> me(@AuthenticationPrincipal Jwt jwt) {
         AuthenticatedSubject subject = subject(jwt);
         return Map.of("id", subject.userId(), "issuer", subject.issuer(), "subject", subject.externalSubject());
     }
 
     @GetMapping("/tenants/{tenantId}/repositories/{repositoryId}")
-    RepositoryView repository(Jwt jwt, @PathVariable UUID tenantId, @PathVariable UUID repositoryId) {
+    RepositoryView repository(@AuthenticationPrincipal Jwt jwt, @PathVariable UUID tenantId, @PathVariable UUID repositoryId) {
         return repositories.get(subject(jwt), tenantId, repositoryId);
     }
 

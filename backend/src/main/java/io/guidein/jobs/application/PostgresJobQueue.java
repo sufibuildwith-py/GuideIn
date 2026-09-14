@@ -73,6 +73,14 @@ final class PostgresJobQueue implements JobQueue {
     @Transactional
     public Optional<ClaimedJob> claimNext(UUID tenantId) {
         context.setTenant(tenantId);
+        // A worker can die on its last attempt without calling fail(). Retire its expired lease.
+        int exhausted = jdbc.sql("""
+                UPDATE job_queue SET status='DEAD', completed_at=clock_timestamp(),
+                    lease_token=NULL, lease_until=NULL, last_error_code='LEASE_EXHAUSTED'
+                 WHERE tenant_id=:tenantId AND status='RUNNING'
+                   AND lease_until <= clock_timestamp() AND attempt_count >= max_attempts
+                """).param("tenantId", tenantId).update();
+        for (int index = 0; index < exhausted; index++) { metrics.jobDead(); metrics.jobTerminal(); }
         UUID token = UUID.randomUUID();
         Optional<ClaimedJob> result = jdbc.sql("""
                 WITH candidate AS (

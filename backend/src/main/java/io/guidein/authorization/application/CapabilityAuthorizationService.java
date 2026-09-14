@@ -27,7 +27,7 @@ final class CapabilityAuthorizationService implements AuthorizationService {
     @Override
     public AccessDecision decide(AuthenticatedSubject subject, AccessContext access, Capability capability,
                                  ResourceRef resource, boolean resourceInScope) {
-        if (subject == null || access == null || capability == null || resource == null) {
+        if (subject == null || access == null || access.role() == null || capability == null || resource == null) {
             return AccessDecision.deny("AUTHORIZATION_INPUT_MISSING");
         }
         if (!subject.userId().equals(access.userId()) || !access.tenantId().equals(resource.tenantId())) {

@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public final class RequestIdentityFilter extends OncePerRequestFilter {
+    private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(RequestIdentityFilter.class);
     public static final String ATTRIBUTE = RequestIdentity.class.getName();
     public static final String REQUEST_HEADER = "X-Request-Id";
     public static final String CORRELATION_HEADER = "X-Correlation-Id";
@@ -30,7 +31,12 @@ public final class RequestIdentityFilter extends OncePerRequestFilter {
         response.setHeader(CORRELATION_HEADER, correlationId.toString());
         try (MDC.MDCCloseable ignoredRequest = MDC.putCloseable("request_id", requestId.toString());
              MDC.MDCCloseable ignoredCorrelation = MDC.putCloseable("correlation_id", correlationId.toString())) {
-            chain.doFilter(request, response);
+            try {
+                chain.doFilter(request, response);
+            } finally {
+                // Deliberately omit URI, headers, body and exception messages from access logs.
+                LOG.info("http_request_completed status={}", response.getStatus());
+            }
         }
     }
 
@@ -43,4 +49,3 @@ public final class RequestIdentityFilter extends OncePerRequestFilter {
         }
     }
 }
-

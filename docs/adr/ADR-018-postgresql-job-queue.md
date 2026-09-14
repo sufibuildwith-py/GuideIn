@@ -9,6 +9,8 @@ In-memory executor, Redis/RabbitMQ/Kafka/SQS, PostgreSQL queue.
 ## Decision
 Use ordered `FOR UPDATE SKIP LOCKED`, active dedupe uniqueness, expiring leases, attempt bounds, stable failure categories, and lease-token-guarded completion.
 
+Before claiming, retire expired RUNNING jobs whose attempts are exhausted to DEAD with `LEASE_EXHAUSTED`. This makes a final-attempt worker crash recoverable without depending on that dead worker calling `fail()`. Completion still requires a matching current, unexpired token and RUNNING state.
+
 ## Why
 It preserves durability and transaction semantics using existing infrastructure.
 
@@ -20,4 +22,3 @@ RLS isolates jobs; stale workers cannot complete reclaimed work; payloads confer
 
 ## Revisit trigger
 Measured queue load, isolation, or delivery topology exceeds PostgreSQL targets.
-

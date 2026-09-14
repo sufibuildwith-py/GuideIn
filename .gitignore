@@ -7,6 +7,6 @@
 .m2/
 **/target/
 *.log
+evaluation/individual-proof/*.xml
 .DS_Store
 Thumbs.db
-

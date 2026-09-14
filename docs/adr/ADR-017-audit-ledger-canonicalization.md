@@ -18,6 +18,7 @@ The small dependency is old and must be monitored; input is restricted to I-JSON
 ## Security consequences
 Database permissions and a trigger prevent runtime mutation; a verifier detects privileged tampering/deletion.
 
+The proof pass found that continuity alone accepts a truncated valid prefix. Verification now compares its final sequence/hash to `audit_heads`; the regression suite includes middle and tail deletion plus payload, previous-hash, sequence, and event-hash replacement.
+
 ## Revisit trigger
 Dependency health fails review or certificates require externally anchored/signed audit roots.
-
