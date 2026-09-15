@@ -7,7 +7,8 @@ public enum Capability {
     REPOSITORY_READ("repository.read"),
     REPOSITORY_MANAGE("repository.manage"),
     AUDIT_READ("audit.read"),
-    PLATFORM_READ("platform.read");
+    PLATFORM_READ("platform.read"),
+    INTEGRATION_WRITE("integration.write");
 
     private final String id;
 
@@ -19,4 +20,3 @@ public enum Capability {
         return id;
     }
 }
-

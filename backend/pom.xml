@@ -152,7 +152,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
-                    <argLine>-javaagent:"${project.build.directory}/agents/opentelemetry-javaagent.jar" -Dotel.service.name=guidein-proof -Dotel.traces.exporter=none -Dotel.metrics.exporter=none -Dotel.logs.exporter=none</argLine>
+                    <argLine>-javaagent:"${project.build.directory}/agents/opentelemetry-javaagent.jar" -Dotel.service.name=guidein-proof -Dotel.traces.exporter=none -Dotel.metrics.exporter=none -Dotel.logs.exporter=none -Dotel.instrumentation.methods.include=io.guidein.github.application.GitHubHydrator[processNext]</argLine>
                     <groups>integration,security,concurrency</groups>
                 </configuration>
                 <executions>

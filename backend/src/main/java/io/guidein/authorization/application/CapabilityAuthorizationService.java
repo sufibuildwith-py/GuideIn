@@ -36,7 +36,8 @@ final class CapabilityAuthorizationService implements AuthorizationService {
         if (!MATRIX.getOrDefault(access.role(), EnumSet.noneOf(Capability.class)).contains(capability)) {
             return AccessDecision.deny("CAPABILITY_DENIED");
         }
-        if ((capability == Capability.REPOSITORY_READ || capability == Capability.REPOSITORY_MANAGE)
+        if ((capability == Capability.REPOSITORY_READ || capability == Capability.REPOSITORY_MANAGE
+                || capability == Capability.INTEGRATION_WRITE)
                 && !resourceInScope) {
             return AccessDecision.deny("RESOURCE_SCOPE_DENIED");
         }

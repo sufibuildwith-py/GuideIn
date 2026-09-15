@@ -27,6 +27,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(org.springframework.http.HttpMethod.POST,"/api/v1/webhooks/github").permitAll()
                         .requestMatchers("/actuator/health", "/actuator/health/liveness", "/actuator/health/readiness").permitAll()
                         .requestMatchers("/actuator/**").denyAll()
                         .requestMatchers("/api/v1/**").authenticated()
@@ -51,4 +52,3 @@ public class SecurityConfiguration {
         return decoder;
     }
 }
-

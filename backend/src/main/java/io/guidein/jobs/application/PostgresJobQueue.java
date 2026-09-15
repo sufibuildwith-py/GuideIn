@@ -72,6 +72,12 @@ final class PostgresJobQueue implements JobQueue {
     @Override
     @Transactional
     public Optional<ClaimedJob> claimNext(UUID tenantId) {
+        return claimNext(tenantId, null);
+    }
+
+    @Override
+    @Transactional
+    public Optional<ClaimedJob> claimNext(UUID tenantId, String jobType) {
         context.setTenant(tenantId);
         // A worker can die on its last attempt without calling fail(). Retire its expired lease.
         int exhausted = jdbc.sql("""
@@ -86,6 +92,7 @@ final class PostgresJobQueue implements JobQueue {
                 WITH candidate AS (
                     SELECT id FROM job_queue
                      WHERE tenant_id=:tenantId AND attempt_count < max_attempts
+                       AND (CAST(:jobType AS text) IS NULL OR job_type=:jobType)
                        AND ((status='READY' AND available_at <= clock_timestamp())
                          OR (status='RUNNING' AND lease_until <= clock_timestamp()))
                      ORDER BY available_at, id FOR UPDATE SKIP LOCKED LIMIT 1
@@ -98,7 +105,7 @@ final class PostgresJobQueue implements JobQueue {
                 RETURNING job.id, job.tenant_id, job.job_type, job.dedupe_key, job.payload_json::text,
                           job.attempt_count, job.max_attempts, job.lease_token, job.lease_until,
                           job.correlation_id, job.causation_id
-                """).param("tenantId", tenantId).param("token", token)
+                """).param("tenantId", tenantId).param("token", token).param("jobType", jobType)
                 .param("leaseSeconds", Math.toIntExact(leaseDuration.toSeconds()))
                 .query((rs, row) -> new ClaimedJob(rs.getObject(1, UUID.class), rs.getObject(2, UUID.class),
                         rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getInt(7),
@@ -124,6 +131,13 @@ final class PostgresJobQueue implements JobQueue {
     @Override
     @Transactional
     public JobStatus fail(UUID tenantId, UUID jobId, UUID leaseToken, FailureCategory category, String errorCode) {
+        return failNotBefore(tenantId, jobId, leaseToken, category, errorCode, null);
+    }
+
+    @Override
+    @Transactional
+    public JobStatus failNotBefore(UUID tenantId, UUID jobId, UUID leaseToken, FailureCategory category,
+                                   String errorCode, Instant notBefore) {
         context.setTenant(tenantId);
         CurrentJob current = jdbc.sql("""
                 SELECT attempt_count, max_attempts FROM job_queue
@@ -135,9 +149,10 @@ final class PostgresJobQueue implements JobQueue {
         if (category.retryable() && current.attempts() < current.maxAttempts()) {
             int delaySeconds = backoffSeconds(current.attempts());
             jdbc.sql("""
-                    UPDATE job_queue SET status='READY', available_at=clock_timestamp()+make_interval(secs => :delay),
+                    UPDATE job_queue SET status='READY', available_at=GREATEST(clock_timestamp()+make_interval(secs => :delay), CAST(:notBefore AS timestamptz)),
                         lease_token=NULL, lease_until=NULL, last_error_code=:errorCode WHERE id=:id
-                    """).param("delay", delaySeconds).param("errorCode", safeCode(errorCode)).param("id", jobId).update();
+                    """).param("delay", delaySeconds).param("notBefore", notBefore == null ? null : Timestamp.from(notBefore))
+                    .param("errorCode", safeCode(errorCode)).param("id", jobId).update();
             metrics.jobRetried();
             return JobStatus.READY;
         }

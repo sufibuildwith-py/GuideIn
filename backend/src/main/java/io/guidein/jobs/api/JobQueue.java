@@ -8,5 +8,7 @@ public interface JobQueue {
     Optional<ClaimedJob> claimNext(UUID tenantId);
     boolean complete(UUID tenantId, UUID jobId, UUID leaseToken);
     JobStatus fail(UUID tenantId, UUID jobId, UUID leaseToken, FailureCategory category, String errorCode);
+    Optional<ClaimedJob> claimNext(UUID tenantId, String jobType);
+    JobStatus failNotBefore(UUID tenantId, UUID jobId, UUID leaseToken, FailureCategory category,
+                            String errorCode, java.time.Instant notBefore);
 }
-
