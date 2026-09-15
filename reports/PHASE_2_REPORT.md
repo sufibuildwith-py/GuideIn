@@ -1,0 +1,59 @@
+# Phase 2 — GitHub trustworthy ingestion
+
+## Final PostgreSQL proof completion — 2026-09-15
+
+**PASS. Phase 3 readiness: READY.** The final fresh `mvn clean verify` completed at 16:36:00 +05:30: 133/133 tests passed, zero failures, errors or skips. This comprises 83 unit/architecture cases, all 18 Phase-1 PostgreSQL proofs, 31 GitHub integration/adversarial cases and one real-process 10K replay. No requested proof remains unexecuted and no known P0/P1 Phase-2 defect remains unresolved. This declaration does not begin Phase 3.
+
+The final cycle used newly created PostgreSQL 18.6 instances for `guidein_phase2`, `guidein_replay` and `guidein`. All ten Flyway migrations applied from zero and validated: migration failures, checksum failures and manual schema patches were each zero. GitHub/OIDC remained loopback HTTP fixtures; application HTTP, PostgreSQL, roles, transactions, RLS, HMAC, JWT decoding and process restart were real.
+
+All nine required measured counters were zero: invalid signatures accepted, duplicate semantic effects, lost accepted deliveries, cross-tenant provider reads, spoofed installation bindings, secret leaks, stale revision regressions, CI wrong-SHA bindings and false-complete file sets. [Machine-readable results](../evaluation/phase2-results.json) map each counter to executed proof methods. [Individual test evidence](../evaluation/phase2-test-results.json) retains exact names, statuses and durations; [proof measurements](../evaluation/phase2-proof-evidence.json) retain environment and gate artifacts.
+
+The final clean replay accepted and verified 10,000 valid requests with 6,000 unique delivery IDs and 4,000 suppressed duplicates. A separate 1,000 invalid-signature population was rejected in full. All 6,001 jobs completed, producing 5,000 semantic changes; lost deliveries, duplicate semantic outcomes and processing failures were zero. The real application process was killed after 5,000 durable acceptances and replaced. Recovery and post-replay platform integrity passed. Ingress p50 was 48.2919 ms and p95 131.0208 ms; measured elapsed time including post-replay checks was 1210.413994899 seconds (JUnit suite 1213.567 seconds).
+
+The final Phase-1 regression also passed its 10,000-job/eight-worker stress: 10,000 completed, zero dead/lost/duplicate jobs or overlapping valid owners, in 108.9848474 seconds. Tenant isolation, one-connection pool reuse, runtime role restrictions, audit tampering/concurrent append, both outbox rollback directions and lease/final-attempt recovery passed. During PostgreSQL interruption readiness was 503, liveness 200, protected operations failed, and recovery succeeded. Post-replay audit verification, outbox publication, terminal jobs and pooled tenant isolation passed independently.
+
+Final implementation commit: `71ad5e2a3a7ba72f69b61c770212d011c9ee2d10`. This report and the machine-readable measurements are committed separately as the final evidence commit; its SHA is returned with the completion result (a commit cannot contain its own SHA). Earlier incomplete checkpoints and discovered defects are preserved in the following history and journal.
+
+## Proof history
+
+Phase 1 was complete and proven before Phase 2. Its implementation proof commit is `4f7e4424272c4dac57f1fce2fb9eb5f1ba0adf87`; evidence baseline is `3c1e58eab681c0ca95633236fb4f0d30bf022ca7`. Phase-1 incomplete evidence remains preserved in its report and Git history.
+
+Phase 2 initially had 82 passing unit/architecture tests and no completed PostgreSQL or replay proof. It was NOT READY. Real PostgreSQL runs subsequently passed the original eight integration cases, then the expanded 12, 17 and 21 cases. The provenance run found a real actor classification defect (25/26 passed); the strict context test later exposed a new-test expectation issue (26/27 passed); the observability run found missing worker diagnostics (2/3 passed). These failures remain in [the defect journal](PHASE_2_DEFECT_JOURNAL.md).
+
+The latest targeted run on 2026-09-15 passed 83 unit/architecture and 31 GitHub integration cases, with zero failures or skips. A 10K replay and final fresh clean repository run are still pending at this intermediate checkpoint. Phase 3 remains NOT READY here.
+
+## Implemented trust model
+
+All migrations run through `guidein_migrator`; runtime uses `guidein_app`, a separate non-superuser role without BYPASSRLS, table ownership or DDL authority. V1–V8 remain unchanged. V9 adds installation routing, tenant-owned installation/access/binding state and minimal durable transport receipts. V10 adds immutable change revisions, files and provenance, a current revision projection, and CI observations. New tenant tables ENABLE and FORCE RLS, and compound tenant foreign keys prevent mismatched resource ownership. Transport routing/receipts are a documented minimal global exception before binding; they contain bounded selectors and digests, without source data or authenticated human identity.
+
+GitHub permissions are Metadata, Contents, Pull requests, Checks and Commit statuses READ only. Each installation token request asks for the same reduced set. RS256 app JWTs use the configured client ID issuer and short lifetime. Opaque installation tokens remain in a bounded memory cache keyed by installation authority generation, with a five-minute expiry margin. One 401 refresh/retry is permitted for GET; a second 401 fails. User tokens used for OAuth binding are transient and revoked best-effort, then discarded.
+
+Binding requires an authorized GuideIn OWNER with tenant-wide repository scope, ten-minute hashed one-use state bound to that user and tenant, PKCE verifier, verified GitHub user association with the installation and a current app-level installation lookup. Callback installation IDs and webhook sender fields grant no authority. Suspension, deletion and repository removal restrict authority immediately; re-enabling access requires canonical provider reconciliation. Workers recheck authority before provider requests and generation before persistence.
+
+Webhook ingress reads bounded raw bytes, verifies HMAC-SHA256 against those exact bytes using constant-time digest comparison, validates delivery metadata and commits receipt, job intent and outbox before returning success for bound work. Duplicate delivery IDs cannot produce another intent; different content under the same ID conflicts. Signed unknown events/actions are durably ignored. Unknown installations wait for secure binding. No full webhook payload is retained.
+
+The reused JDK HTTP client rejects redirects and untrusted origins, limits response bytes and total response time, validates pagination links and centrally sends API version `2026-03-10`. Provider reads execute outside long database transactions. Retry-After takes precedence, exhausted primary reset metadata follows, and secondary limits use a minimum one-minute floor. Retry times are persisted in the Phase-1 queue's `available_at`; workers do not sleep through provider cooldowns. Provider failures leave accepted receipts durable and roll back partial normalization.
+
+PR revisions use repository/PR/head SHA identity and remain immutable. Reconciliation fetches provider-current state and checks the head again during hydration; delayed notifications do not set the projection from their embedded head. Numeric repository identity survives display-name changes. Files record added/modified/removed/renamed metadata and previous paths; unavailable metadata stays null. More than the provider's 3,000-file listing cap is explicitly incomplete.
+
+CI observations bind to repository, exact SHA, source kind, external observation ID and reporting app/actor identity. Same-name checks from different apps remain separate. Provider refresh determines current state, avoiding arrival-order regressions. Commit verification boolean, reason and timestamp and USER/BOT/APP/SYSTEM/GHOST/UNKNOWN actor kinds are source provenance facts. They neither authenticate a GuideIn user nor decide release eligibility.
+
+## Observability and secret proof
+
+Receipt/job/outbox correlation and causation IDs connect ingress to processing. The existing OpenTelemetry Java agent instruments the worker method; scoped logs retain tenant, job, causation and correlation plus trace/span identifiers. Provider fetch logs record the bounded provider request ID, and completion logs occur after transaction commit. Separate application processes export actual HTTP, provider and worker spans for inspection. Tests scan canary webhook secret, private-key marker, app JWTs, installation tokens, user tokens and Authorization values across captured logs, process logs, exported spans, error responses, audit/outbox/queue diagnostics. No credential or payload logging is added.
+
+## Test environments and remaining completion evidence
+
+Targeted proof uses Testcontainers PostgreSQL `18.6-alpine`, fresh databases, real GuideIn HTTP and restricted runtime credentials. Only GitHub and OIDC are loopback provider fixtures; the database, production JWT decoder, HMAC reader, job queue and normalizers remain real. All ten migrations apply from zero and are validated. Privilege denial for the pre-commit fault test is temporary, restored in a finally block, and is not a migration or manual schema repair.
+
+The first targeted replay passed in disposable `guidein_replay` PostgreSQL 18.6, completed 2026-09-15 16:08:49 +05:30. It accepted 10,000 valid HTTP deliveries, rejected a separate 1,000 invalid signatures, retained 6,000 unique IDs, suppressed 4,000 duplicates, and completed all 6,001 jobs (including one installation reconciliation) with 5,000 semantic changes. Lost accepted deliveries, duplicate effects and processing failures were all measured zero. Ingress p50 was 54.806501 ms and p95 123.525099 ms. Recovery before platform checks took 1174.8353309 seconds; JUnit total including platform checks was approximately 1286 seconds. That intermediate timing distinction is retained in `evaluation/phase2-replay-targeted.json`.
+
+The real ingress process was terminated after 5,000 accepted unique requests with its worker disabled. A new process recovered the same database and processed the accepted receipts while 3,000 exact duplicates, 1,000 delayed duplicates, 500 delayed PR notifications and 500 lifecycle/CI requests arrived. It rejected the separate invalid-signature population. The test then verified all jobs terminal with no active leases, published every retained outbox row through the production dispatcher, verified the audit ledger and ran 1,000 alternating tenant operations using a one-connection pool, plus a context-free denial check. All passed. The container was removed; Docker inventory was empty before the final clean suite started.
+
+The final clean run subsequently passed; its separate measurements are recorded in the completion section above. The targeted checkpoint remains retained as historical evidence, not substituted for the clean run.
+
+## Known limitations and Phase-3 implications
+
+This deterministic proof simulates GitHub HTTP; it does not establish live GitHub account configuration or remote collector delivery. Production RSA key loading requires PKCS#8 conversion and deployment secret protection. Large provider file sets remain incomplete rather than guessed complete. Source verification observations do not verify build attestations or authorize releases. Future graph consumers must use immutable repository/SHA identities, explicit completeness and typed provenance, and must retain the existing tenant and provider authority boundaries. No System Graph, policy, AI, certificates or Phase-3 migrations are included.
+
+See [research](../docs/research/PHASE_2_RESEARCH.md), ADR-021 through ADR-031 and [operations](../docs/runbooks/PHASE_2_OPERATIONS.md).

@@ -1,0 +1,191 @@
+{
+  "phase": 2,
+  "status": "PASS",
+  "phase_3_readiness": "READY",
+  "evaluated_at": "2026-09-15T16:36:00+05:30",
+  "phase_1_implementation_baseline_commit": "4f7e4424272c4dac57f1fce2fb9eb5f1ba0adf87",
+  "phase_1_evidence_baseline_commit": "3c1e58eab681c0ca95633236fb4f0d30bf022ca7",
+  "final_implementation_commit": "71ad5e2a3a7ba72f69b61c770212d011c9ee2d10",
+  "build": {
+    "status": "PASS",
+    "command": "mvn --batch-mode --no-transfer-progress clean verify",
+    "log": ".m2/phase2-final-clean.log"
+  },
+  "tests": {
+    "total": 133,
+    "passed": 133,
+    "failed": 0,
+    "skipped": 0,
+    "unit_architecture": 83,
+    "phase_1_postgresql": 18,
+    "phase_2_integration_adversarial": 31,
+    "replay": 1,
+    "skipped_phase_2_proof_tests": 0,
+    "case_evidence": "phase2-test-results.json"
+  },
+  "security_gates": {
+    "invalid_signatures_accepted": 0,
+    "duplicate_semantic_effects": 0,
+    "lost_accepted_deliveries": 0,
+    "cross_tenant_provider_reads": 0,
+    "spoofed_installation_bindings": 0,
+    "secret_leaks": 0,
+    "stale_revision_regressions": 0,
+    "ci_wrong_sha_bindings": 0,
+    "false_complete_file_sets": 0
+  },
+  "gate_proof_methods": {
+    "invalid_signatures_accepted": [
+      "rawHttpSignatureAdversariesCannotCreateTrustedState",
+      "tenThousandDeliveriesRecoverAcrossRealProcessCrashWithoutDuplicateEffects"
+    ],
+    "duplicate_semantic_effects": [
+      "concurrentDuplicatesHaveOneProcessingIntentAndOneRevision",
+      "tenThousandDeliveriesRecoverAcrossRealProcessCrashWithoutDuplicateEffects"
+    ],
+    "lost_accepted_deliveries": [
+      "acceptedDeliverySurvivesActualApplicationProcessDeathAndRestart",
+      "tenThousandDeliveriesRecoverAcrossRealProcessCrashWithoutDuplicateEffects"
+    ],
+    "cross_tenant_provider_reads": [
+      "crossTenantExternalIdSubstitutionFailsBeforeProviderReadsAndRlsProtectsWrites"
+    ],
+    "spoofed_installation_bindings": [
+      "expiredWrongUserAndSpoofedInstallationStatesCannotBind",
+      "spoofedBindingAndReusedStateAreDenied"
+    ],
+    "secret_leaks": [
+      "workflowTelemetryConnectsReceiptJobProviderAndNormalizationWithoutSecrets(CapturedOutput)",
+      "acceptedDeliverySurvivesActualApplicationProcessDeathAndRestart"
+    ],
+    "stale_revision_regressions": [
+      "revisionsPreserveHistoryAndDelayedNotificationCannotRegressHead",
+      "tenThousandDeliveriesRecoverAcrossRealProcessCrashWithoutDuplicateEffects"
+    ],
+    "ci_wrong_sha_bindings": [
+      "wrongShaProviderCheckCannotBeBoundToRequestedRevision",
+      "ciSourcesAndExactShasRemainIndependentAndCanonical"
+    ],
+    "false_complete_file_sets": [
+      "giantFileSetIsExplicitlyIncomplete"
+    ]
+  },
+  "additional_measured_gates": {
+    "cross_tenant_normalized_writes": 0,
+    "missing_tenant_context_exposures": 0,
+    "tenant_context_leaks": 0,
+    "processing_failures": 0
+  },
+  "environment": {
+    "postgresql": "18.6-alpine",
+    "fresh_databases": [
+      "guidein_phase2",
+      "guidein_replay",
+      "guidein"
+    ],
+    "migrations_applied_from_zero": 10,
+    "migration_failures": 0,
+    "checksum_failures": 0,
+    "manual_schema_patches": 0,
+    "migrator_role": "guidein_migrator",
+    "runtime_role": "guidein_app",
+    "provider": "Real loopback HTTP GitHub fixture; no live account mutations",
+    "flyway_validation": "PASS"
+  },
+  "components": {
+    "github_app_auth": "PASS",
+    "installation_lifecycle": "PASS",
+    "webhook_hmac": "PASS",
+    "replay_protection": "PASS",
+    "durable_processing": "PASS",
+    "provider_api_client": "PASS",
+    "rate_limit_behavior": "PASS",
+    "pr_normalization": "PASS",
+    "commit_normalization": "PASS",
+    "file_metadata": "PASS",
+    "ci_ingestion": "PASS",
+    "provenance": "PASS",
+    "rls_isolation": "PASS",
+    "observability": "PASS"
+  },
+  "provider_api_version": "2026-03-10",
+  "permissions": {
+    "metadata": "read",
+    "contents": "read",
+    "pull_requests": "read",
+    "checks": "read",
+    "statuses": "read"
+  },
+  "replay": {
+    "deliveries_sent": 10000,
+    "http_accepted": 10000,
+    "verified": 10000,
+    "invalid_population": 1000,
+    "invalid_rejected": 1000,
+    "invalid_signatures_accepted": 0,
+    "unique_delivery_ids": 6000,
+    "duplicates_sent": 4000,
+    "duplicates_suppressed": 4000,
+    "jobs_created": 6001,
+    "jobs_completed": 6001,
+    "semantic_changes": 5000,
+    "lost_accepted_deliveries": 0,
+    "duplicate_semantic_effects": 0,
+    "valid_verified": 10000,
+    "duplicate_deliveries": 4000,
+    "ingress_p50_ms": 48.2919,
+    "ingress_p95_ms": 131.0208,
+    "elapsed_seconds": 1210.413994899,
+    "crash_after_durable_acceptances": 5000,
+    "processing_failures": 0,
+    "platform_integrity_after_replay": "PASS",
+    "environment": "Fresh guidein_replay database within final clean verify cycle",
+    "junit_seconds": 1213.567
+  },
+  "rate_limits": {
+    "primary": {
+      "observed_at": "2026-09-15T10:41:27.153386300Z",
+      "available_at": "2026-09-15T10:43:57Z",
+      "busy_retries": 0
+    },
+    "secondary": {
+      "observed_at": "2026-09-15T10:41:27.611973400Z",
+      "available_at": "2026-09-15T10:42:27.662Z",
+      "busy_retries": 0
+    }
+  },
+  "proof_evidence": "phase2-proof-evidence.json",
+  "defect_journal": "../reports/PHASE_2_DEFECT_JOURNAL.md",
+  "unresolved_p0_p1_defects": [],
+  "history": [
+    {
+      "status": "NOT_READY",
+      "unit_architecture_passed": 82,
+      "postgresql_proof_finished": false,
+      "replay_executed": false
+    },
+    {
+      "status": "FAIL",
+      "integration_passed": 25,
+      "integration_total": 26,
+      "reason": "Actor-kind classification defect, subsequently fixed"
+    },
+    {
+      "status": "FAIL",
+      "integration_passed": 2,
+      "integration_total": 3,
+      "reason": "Missing worker completion telemetry, subsequently fixed"
+    },
+    {
+      "status": "PASS",
+      "stage": "targeted replay",
+      "evidence": "phase2-replay-targeted.json"
+    }
+  ],
+  "limitations": [
+    "Deterministic GitHub HTTP fixture, not live installation acceptance",
+    "Remote collector delivery not measured; actual local exported spans scanned",
+    "PKCS#8 private-key conversion required",
+    "Source observations do not verify build attestations or decide release eligibility"
+  ]
+}

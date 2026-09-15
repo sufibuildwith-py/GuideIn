@@ -1,0 +1,292 @@
+{
+  "atomicity": {
+    "outbox_atomicity_violations": 0,
+    "rollback_directions": 2
+  },
+  "audit-concurrency": {
+    "false_integrity_failures": 0,
+    "appended": 210,
+    "concurrent_verifications": 100
+  },
+  "audit": {
+    "undetected_audit_tampering": 0,
+    "tampering_cases": 6
+  },
+  "authorization": {
+    "scope_modes_tested": [
+      "ALL_REPOSITORIES",
+      "SELECTED_REPOSITORIES"
+    ],
+    "identity_uses_issuer_subject": true,
+    "invalid_jwt_cases": 6,
+    "unauthorized_protected_actions": 0,
+    "denied_attempts": 281
+  },
+  "availability": {
+    "liveness_down": 200,
+    "readiness_up": 200,
+    "recovered": true,
+    "readiness_down": 503,
+    "false_success_operations": 0
+  },
+  "concurrency": {
+    "lost_jobs": 0,
+    "simultaneous_valid_owners": 0,
+    "jobs_dead": 0,
+    "jobs": 10000,
+    "workers": 8,
+    "jobs_completed": 10000,
+    "pool_size": 8,
+    "claim_runtime_seconds": 40.26711,
+    "claim_and_complete_per_second": 248.34163663595425,
+    "duplicate_job_effects": 0,
+    "total_runtime_seconds": 108.9848474
+  },
+  "environment": {
+    "version": "PostgreSQL 18.6 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+    "database": "guidein",
+    "roles": [
+      {
+        "superuser": false,
+        "bypassrls": false,
+        "role": "guidein_app",
+        "createrole": false,
+        "createdb": false
+      },
+      {
+        "superuser": false,
+        "bypassrls": false,
+        "role": "guidein_migrator",
+        "createrole": false,
+        "createdb": false
+      }
+    ],
+    "tables": [
+      {
+        "force_rls": true,
+        "owner": "guidein_migrator",
+        "rls": true,
+        "table": "audit_heads"
+      },
+      {
+        "force_rls": true,
+        "owner": "guidein_migrator",
+        "rls": true,
+        "table": "membership_repository_scopes"
+      },
+      {
+        "force_rls": true,
+        "owner": "guidein_migrator",
+        "rls": true,
+        "table": "repositories"
+      },
+      {
+        "force_rls": true,
+        "owner": "guidein_migrator",
+        "rls": true,
+        "table": "job_queue"
+      },
+      {
+        "force_rls": true,
+        "owner": "guidein_migrator",
+        "rls": true,
+        "table": "outbox_events"
+      },
+      {
+        "force_rls": true,
+        "owner": "guidein_migrator",
+        "rls": true,
+        "table": "audit_events"
+      },
+      {
+        "force_rls": true,
+        "owner": "guidein_migrator",
+        "rls": true,
+        "table": "memberships"
+      },
+      {
+        "force_rls": true,
+        "owner": "guidein_migrator",
+        "rls": true,
+        "table": "tenants"
+      }
+    ],
+    "migrations": [
+      {
+        "checksum": -1701008200,
+        "version": "1",
+        "success": true
+      },
+      {
+        "checksum": 1497221635,
+        "version": "2",
+        "success": true
+      },
+      {
+        "checksum": 527494907,
+        "version": "3",
+        "success": true
+      },
+      {
+        "checksum": 17527445,
+        "version": "4",
+        "success": true
+      },
+      {
+        "checksum": 1369271597,
+        "version": "5",
+        "success": true
+      },
+      {
+        "checksum": 725807977,
+        "version": "6",
+        "success": true
+      },
+      {
+        "checksum": 1376102304,
+        "version": "7",
+        "success": true
+      },
+      {
+        "checksum": -338541424,
+        "version": "8",
+        "success": true
+      },
+      {
+        "checksum": 351664602,
+        "version": "9",
+        "success": true
+      },
+      {
+        "checksum": 1077304453,
+        "version": "10",
+        "success": true
+      }
+    ],
+    "validation_errors": 0,
+    "manual_schema_patches": 0
+  },
+  "leases": {
+    "exhausted_crash_dead": 1,
+    "stale_completions": 0
+  },
+  "missing-context": {
+    "tables": 8,
+    "missing_tenant_context_exposures": 0
+  },
+  "observability": {
+    "request_id": "dd02a969-40d8-46cc-a2c7-9b76a5ae9758",
+    "correlation_id": "50000000-0000-0000-0000-000000000001",
+    "exporters": "none (local trace/context proof)",
+    "span_id": "8508cf8a5ac6b10e",
+    "secret_leaks": 0,
+    "agent_version": "2.28.1",
+    "trace_id": "d4b9a1e18e2d735e42e1505fee18c686"
+  },
+  "outbox-recovery": {
+    "successful_recovery": 1,
+    "lost_events": 0
+  },
+  "performance": {
+    "authorization": {
+      "operations_per_second": 255878.8157928405,
+      "p95_ms": 0.0047,
+      "p50_ms": 0.0025,
+      "samples": 1000
+    },
+    "tenant_query": {
+      "operations_per_second": 138.08774025972232,
+      "p95_ms": 10.492501,
+      "p50_ms": 6.735899,
+      "samples": 200
+    },
+    "audit_append": {
+      "operations_per_second": 76.51095355562396,
+      "p95_ms": 25.398201,
+      "p50_ms": 12.1408,
+      "samples": 100
+    },
+    "job_claim": {
+      "operations_per_second": 92.29416194095447,
+      "p95_ms": 14.486201,
+      "p50_ms": 10.634799,
+      "samples": 200
+    },
+    "outbox_dispatch": {
+      "operations_per_second": 102.32866791354148,
+      "p95_ms": 15.4106,
+      "p50_ms": 8.7743,
+      "samples": 200
+    },
+    "scope": "Local Windows/Docker/Java21 with OTel agent; assertion overhead included; no production claim"
+  },
+  "phase2-observability": {
+    "secret_leaks": 0,
+    "causation_id": "13265dac-a44e-4ce0-a0e0-0d5431e3eb9e",
+    "correlation_id": "58f26316-298b-4cda-b4d1-b7e2cdf6121b"
+  },
+  "phase2-rate-primary": {
+    "observed_at": "2026-09-15T10:41:27.153386300Z",
+    "available_at": "2026-09-15T10:43:57Z",
+    "busy_retries": 0
+  },
+  "phase2-rate-secondary": {
+    "observed_at": "2026-09-15T10:41:27.611973400Z",
+    "available_at": "2026-09-15T10:42:27.662Z",
+    "busy_retries": 0
+  },
+  "phase2-replay": {
+    "deliveries_sent": 10000,
+    "http_accepted": 10000,
+    "verified": 10000,
+    "invalid_population": 1000,
+    "invalid_rejected": 1000,
+    "invalid_signatures_accepted": 0,
+    "unique_delivery_ids": 6000,
+    "duplicates_sent": 4000,
+    "duplicates_suppressed": 4000,
+    "jobs_created": 6001,
+    "jobs_completed": 6001,
+    "semantic_changes": 5000,
+    "lost_accepted_deliveries": 0,
+    "duplicate_semantic_effects": 0,
+    "valid_verified": 10000,
+    "duplicate_deliveries": 4000,
+    "ingress_p50_ms": 48.2919,
+    "ingress_p95_ms": 131.0208,
+    "elapsed_seconds": 1210.413994899,
+    "crash_after_durable_acceptances": 5000,
+    "processing_failures": 0,
+    "platform_integrity_after_replay": "PASS"
+  },
+  "phase2-secret-process": {
+    "secret_leaks": 0,
+    "exported_spans_scanned": true,
+    "error_responses_scanned": true
+  },
+  "pool": {
+    "pool_size": 1,
+    "operations": 4000,
+    "tenant_context_leaks": 0,
+    "iterations": 2000
+  },
+  "runtime-role": {
+    "forbidden_schema_operations": 0,
+    "forbidden_operations": 7,
+    "audit_mutations_runtime_role": 0
+  },
+  "tenant-reads": {
+    "seed": 1806,
+    "attempts": 10000,
+    "cross_tenant_reads": 0
+  },
+  "tenant-writes": {
+    "update_attempts": 1,
+    "cross_tenant_writes": 0,
+    "insert_attempts": 10000
+  },
+  "transaction-metrics": {
+    "commit_and_completion_deltas_verified": true,
+    "rolled_back_writes_counted": 0
+  }
+}
