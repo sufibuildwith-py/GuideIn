@@ -6,6 +6,7 @@
 !.env.example
 .m2/
 **/target/
+**/.gradle/
 *.log
 evaluation/individual-proof/*.xml
 .DS_Store

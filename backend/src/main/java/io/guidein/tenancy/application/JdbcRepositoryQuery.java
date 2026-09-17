@@ -33,6 +33,16 @@ final class JdbcRepositoryQuery implements RepositoryQuery {
     @Override
     @Transactional(readOnly = true)
     public RepositoryView get(AuthenticatedSubject subject, UUID tenantId, UUID repositoryId) {
+        return authorized(subject, tenantId, repositoryId, Capability.REPOSITORY_READ);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public RepositoryView requireManage(AuthenticatedSubject subject, UUID tenantId, UUID repositoryId) {
+        return authorized(subject, tenantId, repositoryId, Capability.REPOSITORY_MANAGE);
+    }
+
+    private RepositoryView authorized(AuthenticatedSubject subject, UUID tenantId, UUID repositoryId, Capability capability) {
         context.setAuthenticatedUser(subject.userId());
         Membership membership = jdbc.sql("""
                 SELECT id, tenant_id, user_id, role, scope_mode
@@ -61,8 +71,18 @@ final class JdbcRepositoryQuery implements RepositoryQuery {
                 """).param("membershipId", membership.id()).param("repositoryId", repositoryId)
                 .query(Boolean.class).single();
         authorization.require(subject, new AccessContext(membership.id(), membership.tenantId(),
-                        membership.userId(), membership.role()), Capability.REPOSITORY_READ,
+                        membership.userId(), membership.role()), capability,
                 new ResourceRef(ResourceRef.ResourceType.REPOSITORY, tenantId, repositoryId), inScope);
         return repository;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void requireMembership(AuthenticatedSubject subject, UUID tenantId) {
+        context.setAuthenticatedUser(subject.userId());
+        boolean member = jdbc.sql("SELECT EXISTS(SELECT 1 FROM memberships WHERE tenant_id=:tenant AND user_id=:user)")
+                .param("tenant", tenantId).param("user", subject.userId()).query(Boolean.class).single();
+        if (!member) throw new GuideInException(ErrorCode.RESOURCE_NOT_FOUND);
+        context.setTenant(tenantId);
     }
 }

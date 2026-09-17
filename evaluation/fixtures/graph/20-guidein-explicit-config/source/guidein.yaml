@@ -1,0 +1,16 @@
+guidein:
+  version: 1
+  repository:
+    criticality: HIGH
+  components:
+    - name: payments
+      paths: ["services/payments/**"]
+      criticality: CRITICAL
+    - name: ledger
+      paths: ["services/ledger/**"]
+      criticality: HIGH
+  owners:
+    - domain: payments
+      team: payment-platform
+
+

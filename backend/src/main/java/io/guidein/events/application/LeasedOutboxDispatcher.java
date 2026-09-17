@@ -31,12 +31,19 @@ final class LeasedOutboxDispatcher implements OutboxDispatcher {
     @Override
     @Transactional
     public boolean dispatchNext(UUID tenantId, OutboxConsumer consumer) {
+        return dispatchNext(tenantId, null, consumer);
+    }
+
+    @Override
+    @Transactional
+    public boolean dispatchNext(UUID tenantId, String eventType, OutboxConsumer consumer) {
         context.setTenant(tenantId);
         UUID token = UUID.randomUUID();
         Optional<OutboxEvent> claimed = jdbc.sql("""
                 WITH candidate AS (
                     SELECT id FROM outbox_events
                      WHERE tenant_id=:tenantId AND published_at IS NULL
+                       AND (CAST(:eventType AS text) IS NULL OR event_type=:eventType)
                        AND (locked_until IS NULL OR locked_until <= clock_timestamp())
                      ORDER BY occurred_at, id FOR UPDATE SKIP LOCKED LIMIT 1
                 )
@@ -48,7 +55,7 @@ final class LeasedOutboxDispatcher implements OutboxDispatcher {
                 RETURNING event.id, event.tenant_id, event.aggregate_type, event.aggregate_id,
                           event.event_type, event.event_version, event.payload_json::text, event.payload_hash,
                           event.correlation_id, event.causation_id, event.occurred_at, event.lock_token
-                """).param("tenantId", tenantId).param("token", token)
+                """).param("tenantId", tenantId).param("token", token).param("eventType", eventType)
                 .param("leaseSeconds", Math.toIntExact(leaseDuration.toSeconds()))
                 .query((rs, row) -> new OutboxEvent(rs.getObject(1, UUID.class), rs.getObject(2, UUID.class),
                         rs.getString(3), rs.getObject(4, UUID.class), rs.getString(5), rs.getInt(6),

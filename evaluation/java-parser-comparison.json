@@ -1,0 +1,19 @@
+{
+  "measured_at": "2026-09-16",
+  "scope": "Standalone benchmark; not the Phase-3 completion verdict. Same JVM; heap observations are approximate.",
+  "tests": {"total": 2, "passed": 2, "failed": 0, "skipped": 0},
+  "results": [
+    {"parser":"openrewrite-8.87.7","inputs":9,"rounds":20,"matching_results":180,"valid_parses":160,"duration_ms":11302.2274,"heap_before_bytes":36571408,"heap_after_bytes":54048440,"sum_pool_peak_bytes":173855776},
+    {"parser":"javaparser-3.28.2","inputs":9,"rounds":20,"matching_results":180,"valid_parses":160,"duration_ms":69.2969,"heap_before_bytes":37528168,"heap_after_bytes":43819624,"sum_pool_peak_bytes":43819624}
+  ],
+  "resolution": {
+    "javaparser_local_source_resolution": true,
+    "javaparser_missing_classpath_rejected": true,
+    "openrewrite_local_source_resolution": true,
+    "repository_code_executed": false
+  },
+  "production_choice": "JavaParser core 3.28.2; exact repository declaration index, not the general symbol solver",
+  "production_core_jar_bytes": 1493312,
+  "production_core_runtime_dependencies": 0,
+  "limitations": ["Nine labeled source files are not a whole-program attribution benchmark", "Twenty warm rounds measure local parsing, not provider acquisition", "Shared-JVM heap peaks are not isolated process RSS"]
+}

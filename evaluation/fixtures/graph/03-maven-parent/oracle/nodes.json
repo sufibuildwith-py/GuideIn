@@ -1,0 +1,15 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "child/pom.xml",
+    "pom.xml"
+  ],
+  "required_node_keys": [
+    "file:child/pom.xml",
+    "file:pom.xml",
+    "module:.",
+    "module:child",
+    "repo:root"
+  ]
+}

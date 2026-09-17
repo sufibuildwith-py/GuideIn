@@ -1,0 +1,85 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:src/main/java/demo/App.java",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:src/main/java/demo/core/Core.java",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "package:demo",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/main/java/demo/App.java",
+      "type": "DECLARES",
+      "to": "java-type:demo.App",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "package:demo",
+      "type": "CONTAINS",
+      "to": "java-type:demo.App",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "package:demo.core",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/main/java/demo/core/Core.java",
+      "type": "DECLARES",
+      "to": "java-type:demo.core.Core",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "package:demo.core",
+      "type": "CONTAINS",
+      "to": "java-type:demo.core.Core",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/main/java/demo/App.java",
+      "type": "IMPORTS",
+      "to": "java-type:demo.core.Core",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/main/java/demo/App.java",
+      "type": "IMPORTS",
+      "to": "package:java.util",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": []
+}

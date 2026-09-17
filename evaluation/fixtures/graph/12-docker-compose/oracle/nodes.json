@@ -1,0 +1,15 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "compose.yaml"
+  ],
+  "required_node_keys": [
+    "file:compose.yaml",
+    "module:.",
+    "repo:root",
+    "service:compose:api",
+    "service:compose:db",
+    "service:compose:unrelated"
+  ]
+}

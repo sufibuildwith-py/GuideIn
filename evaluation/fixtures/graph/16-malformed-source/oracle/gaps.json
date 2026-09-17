@@ -1,0 +1,15 @@
+{
+  "schema_version": 2,
+  "required_categories": [
+    "MAVEN_INVALID",
+    "NPM_INVALID",
+    "JAVA_PARSE_FAILED",
+    "COMPOSE_INVALID"
+  ],
+  "allowed_categories": [
+    "MAVEN_INVALID",
+    "NPM_INVALID",
+    "JAVA_PARSE_FAILED",
+    "COMPOSE_INVALID"
+  ]
+}

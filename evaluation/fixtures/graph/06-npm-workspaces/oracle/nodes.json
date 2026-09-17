@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "package-lock.json",
+    "package.json",
+    "packages/api/package.json",
+    "packages/core/package.json",
+    "packages/unrelated/package.json"
+  ],
+  "required_node_keys": [
+    "file:package-lock.json",
+    "file:package.json",
+    "file:packages/api/package.json",
+    "file:packages/core/package.json",
+    "file:packages/unrelated/package.json",
+    "module:.",
+    "module:packages/api",
+    "module:packages/core",
+    "module:packages/unrelated",
+    "repo:root"
+  ]
+}

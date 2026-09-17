@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:child/pom.xml",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:pom.xml",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:child",
+      "source": "MAVEN",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "module:child",
+      "source": "MAVEN",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:child",
+      "type": "DEPENDS_ON",
+      "to": "module:.",
+      "source": "MAVEN",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": []
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "api/build.gradle.kts",
+    "settings.gradle.kts",
+    "shared/build.gradle.kts"
+  ],
+  "required_node_keys": [
+    "file:api/build.gradle.kts",
+    "file:settings.gradle.kts",
+    "file:shared/build.gradle.kts",
+    "module:.",
+    "module:api",
+    "module:shared",
+    "repo:root"
+  ]
+}

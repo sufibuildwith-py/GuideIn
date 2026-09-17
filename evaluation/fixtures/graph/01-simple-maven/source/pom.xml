@@ -1,0 +1,2 @@
+<project><modelVersion>4.0.0</modelVersion><groupId>org.demo</groupId><artifactId>app</artifactId><version>1</version><dependencies><dependency><groupId>org.libs</groupId><artifactId>core</artifactId><version>2</version></dependency></dependencies></project>
+

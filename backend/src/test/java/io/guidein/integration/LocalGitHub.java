@@ -24,6 +24,7 @@ final class LocalGitHub implements AutoCloseable {
     final Map<String,java.util.Queue<Integer>> scriptedStatuses=new ConcurrentHashMap<>();
     final Set<String> malformed=ConcurrentHashMap.newKeySet(),resets=ConcurrentHashMap.newKeySet();
     final Map<String,Long> delays=new ConcurrentHashMap<>();
+    final Map<String,Object> sourceResponses=new ConcurrentHashMap<>();
     final List<String> paths=Collections.synchronizedList(new ArrayList<>());
     volatile String head=A,actor="human",signatureReason="valid";
     volatile String actorKind="User",checkSha=null;
@@ -102,6 +103,7 @@ final class LocalGitHub implements AutoCloseable {
         }catch(Exception invalid){return false;}
     }
     Object respond(String path,byte[] input) {
+        if(sourceResponses.containsKey(path)) return sourceResponses.get(path);
         if(path.equals("/login/oauth/access_token")) return Map.of("access_token","GITHUB_USER_TOKEN_CANARY");
         if(path.equals("/user")) return Map.of("id",41,"login","installer");
         if(path.equals("/user/installations")) return Map.of("installations",association?List.of(Map.of("id",101)):List.of());

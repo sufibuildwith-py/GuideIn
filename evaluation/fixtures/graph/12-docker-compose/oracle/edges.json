@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:compose.yaml",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:compose.yaml",
+      "type": "DECLARES",
+      "to": "service:compose:api",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:compose.yaml",
+      "type": "DECLARES",
+      "to": "service:compose:db",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:compose.yaml",
+      "type": "DECLARES",
+      "to": "service:compose:unrelated",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "service:compose:api",
+      "type": "DEPENDS_ON",
+      "to": "service:compose:db",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": [
+    {
+      "from": "service:compose:api",
+      "type": "DEPENDS_ON",
+      "to": "service:compose:unrelated",
+      "classification": "MUST_NOT_EXIST",
+      "reason": "Shared network and port are not dependencies"
+    },
+    {
+      "from": "service:compose:api",
+      "type": "CALLS",
+      "to": "service:compose:unrelated",
+      "classification": "MUST_NOT_EXIST",
+      "reason": "Identical exposed port is not a service call"
+    }
+  ]
+}

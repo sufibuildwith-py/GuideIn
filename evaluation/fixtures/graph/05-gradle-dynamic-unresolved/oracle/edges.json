@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:build.gradle.kts",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:settings.gradle.kts",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": [
+    {
+      "from": "module:.",
+      "type": "DEPENDS_ON",
+      "to": "module:dynamic",
+      "classification": "MUST_NOT_EXIST",
+      "reason": "Dynamic code is not a statically declared relation"
+    }
+  ]
+}

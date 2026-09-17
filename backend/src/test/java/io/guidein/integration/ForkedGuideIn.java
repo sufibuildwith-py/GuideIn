@@ -16,6 +16,9 @@ final class ForkedGuideIn implements AutoCloseable {
         this(database,github,oidc,worker,1000);
     }
     ForkedGuideIn(String database,LocalGitHub github,LocalOidc oidc,boolean worker,int pollMillis) throws Exception {
+        this(database,github,oidc,worker,pollMillis,Map.of());
+    }
+    ForkedGuideIn(String database,LocalGitHub github,LocalOidc oidc,boolean worker,int pollMillis,Map<String,String> overrides) throws Exception {
         Path jar=Path.of("target","guidein-backend-2.0.0-SNAPSHOT.jar").toAbsolutePath();
         if(!Files.isRegularFile(jar))throw new IllegalStateException("Package application before restart proof");
         Path directory=Path.of("target","proof");Files.createDirectories(directory);
@@ -25,7 +28,7 @@ final class ForkedGuideIn implements AutoCloseable {
         if(pollMillis>=1000) {
             arguments.add("-javaagent:"+Path.of("target","agents","opentelemetry-javaagent.jar").toAbsolutePath());
             arguments.add("-Dotel.traces.exporter=logging");arguments.add("-Dotel.metrics.exporter=none");arguments.add("-Dotel.logs.exporter=none");
-            arguments.add("-Dotel.bsp.schedule.delay=100");arguments.add("-Dotel.instrumentation.methods.include=io.guidein.github.application.GitHubHydrator[processNext]");
+            arguments.add("-Dotel.bsp.schedule.delay=100");arguments.add("-Dotel.instrumentation.methods.include=io.guidein.github.application.GitHubHydrator[processNext];io.guidein.graph.application.DurableGraphBuilds[processNext];io.guidein.graph.application.GraphEngine[build];io.guidein.graph.application.GraphStore[publish];io.guidein.github.application.GitHubRepositoryMaterialSource[fetch]");
         }
         arguments.add("-jar");arguments.add(jar.toString());
         var builder=new ProcessBuilder(arguments);
@@ -40,6 +43,7 @@ final class ForkedGuideIn implements AutoCloseable {
                 Map.entry("GUIDEIN_GITHUB_CLIENT_ID","proof-client"),Map.entry("GUIDEIN_GITHUB_CLIENT_SECRET","CLIENT_SECRET_CANARY"),
                 Map.entry("GUIDEIN_GITHUB_APP_SLUG","guidein-proof"),Map.entry("GUIDEIN_GITHUB_CALLBACK_URL","https://guidein.example.test/github/callback"),
                 Map.entry("GUIDEIN_GITHUB_PRIVATE_KEY_PATH",github.keyPath.toString()),Map.entry("GUIDEIN_GITHUB_WEBHOOK_SECRET",GitHubIngestionIT.SECRET)));
+        builder.environment().putAll(overrides);
         process=builder.redirectErrorStream(true).redirectOutput(log.toFile()).start();
         int observed=0;long deadline=System.nanoTime()+Duration.ofSeconds(60).toNanos();
         try {

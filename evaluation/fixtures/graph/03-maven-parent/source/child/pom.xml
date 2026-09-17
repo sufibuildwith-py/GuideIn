@@ -1,0 +1,2 @@
+<project><parent><groupId>org.demo</groupId><artifactId>root</artifactId><version>1</version></parent><artifactId>child</artifactId></project>
+

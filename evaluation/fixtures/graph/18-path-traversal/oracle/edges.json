@@ -1,0 +1,30 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:safe.txt",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": [
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:../../outside",
+      "classification": "MUST_NOT_EXIST",
+      "reason": "Unsafe paths are not graph file identities"
+    }
+  ]
+}

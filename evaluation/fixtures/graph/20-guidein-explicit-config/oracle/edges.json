@@ -1,0 +1,79 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:guidein.yaml",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:services/ledger/README.md",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:services/payments/README.md",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:guidein:ledger",
+      "source": "GUIDEIN",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:guidein:ledger",
+      "type": "CONTAINS",
+      "to": "file:services/ledger/README.md",
+      "source": "GUIDEIN",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:guidein:payments",
+      "source": "GUIDEIN",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:guidein:payments",
+      "type": "CONTAINS",
+      "to": "file:services/payments/README.md",
+      "source": "GUIDEIN",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:guidein.yaml",
+      "type": "DECLARES",
+      "to": "configuration:owner:payments",
+      "source": "GUIDEIN",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": [
+    {
+      "from": "module:guidein:payments",
+      "type": "DEPENDS_ON",
+      "to": "module:guidein:ledger",
+      "classification": "MUST_NOT_EXIST",
+      "reason": "Prose README claims are not structural evidence"
+    }
+  ]
+}

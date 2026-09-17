@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "src/Partial.java"
+  ],
+  "required_node_keys": [
+    "file:src/Partial.java",
+    "java-type:Partial",
+    "module:.",
+    "package:",
+    "repo:root"
+  ]
+}

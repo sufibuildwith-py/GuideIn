@@ -1,0 +1,18 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "api/pom.xml",
+    "core/pom.xml",
+    "pom.xml"
+  ],
+  "required_node_keys": [
+    "file:api/pom.xml",
+    "file:core/pom.xml",
+    "file:pom.xml",
+    "module:.",
+    "module:api",
+    "module:core",
+    "repo:root"
+  ]
+}

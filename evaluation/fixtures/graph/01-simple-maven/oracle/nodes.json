@@ -1,0 +1,13 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "pom.xml"
+  ],
+  "required_node_keys": [
+    "external:maven:org.libs:core",
+    "file:pom.xml",
+    "module:.",
+    "repo:root"
+  ]
+}

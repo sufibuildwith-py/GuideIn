@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:deploy.yaml",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:deploy.yaml",
+      "type": "DECLARES",
+      "to": "deployment:default:Deployment:api",
+      "source": "DEPLOYMENT",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:deploy.yaml",
+      "type": "DECLARES",
+      "to": "service:kubernetes:default:api",
+      "source": "DEPLOYMENT",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "deployment:default:Deployment:api",
+      "type": "DEPLOYED_AS",
+      "to": "service:kubernetes:default:api",
+      "source": "DEPLOYMENT",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": []
+}

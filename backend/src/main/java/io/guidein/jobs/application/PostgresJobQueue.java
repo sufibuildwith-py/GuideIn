@@ -130,6 +130,26 @@ final class PostgresJobQueue implements JobQueue {
 
     @Override
     @Transactional
+    public boolean renew(UUID tenantId, UUID jobId, UUID leaseToken) {
+        context.setTenant(tenantId);
+        return jdbc.sql("""
+                UPDATE job_queue SET lease_until=clock_timestamp()+make_interval(secs => :seconds)
+                 WHERE tenant_id=:tenant AND id=:id AND status='RUNNING'
+                   AND lease_token=:token AND lease_until>clock_timestamp()
+                """).param("tenant", tenantId).param("id", jobId).param("token", leaseToken)
+                .param("seconds", Math.toIntExact(leaseDuration.toSeconds())).update() == 1;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<JobStatus> status(UUID tenantId, UUID jobId) {
+        context.setTenant(tenantId);
+        return jdbc.sql("SELECT status FROM job_queue WHERE tenant_id=:tenant AND id=:id")
+                .param("tenant", tenantId).param("id", jobId).query(String.class).optional().map(JobStatus::valueOf);
+    }
+
+    @Override
+    @Transactional
     public JobStatus fail(UUID tenantId, UUID jobId, UUID leaseToken, FailureCategory category, String errorCode) {
         return failNotBefore(tenantId, jobId, leaseToken, category, errorCode, null);
     }

@@ -1,0 +1,2 @@
+dependencies { implementation(dynamicCoordinate()) }
+

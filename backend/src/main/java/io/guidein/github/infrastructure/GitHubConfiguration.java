@@ -1,6 +1,7 @@
 package io.guidein.github.infrastructure;
 
 import io.guidein.github.api.GitHubIntegration;
+import io.guidein.github.api.RepositoryMaterialSource;
 import io.guidein.github.application.*;
 import io.guidein.github.infrastructure.auth.*;
 import io.guidein.github.infrastructure.client.*;
@@ -25,6 +26,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @ConditionalOnProperty(name="guidein.github.enabled",havingValue="true")
 public class GitHubConfiguration {
+    @Bean RepositoryMaterialSource repositoryMaterialSource(GitHubStore store, GitHubProviderClient provider) {
+        return new GitHubRepositoryMaterialSource(store, provider);
+    }
     @Bean GitHubStore gitHubStore(JdbcClient jdbc,TenantContext context,PlatformTransactionManager manager) {return new GitHubStore(jdbc,context,manager);}
     @Bean(destroyMethod="close") GitHubTransport githubApiTransport(Environment e) {
         return new GitHubTransport(URI.create(e.getProperty("guidein.github.api-origin","https://api.github.com")),Duration.ofSeconds(2),Duration.ofSeconds(5),

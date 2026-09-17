@@ -1,0 +1,9 @@
+services:
+  a:
+    depends_on: [b]
+  b:
+    depends_on: [c]
+  c:
+    depends_on: [a]
+
+

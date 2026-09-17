@@ -1,0 +1,24 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "compose.yaml",
+    "pom.xml",
+    "src/demo/App.java",
+    "web/package.json"
+  ],
+  "required_node_keys": [
+    "external:npm:react",
+    "file:compose.yaml",
+    "file:pom.xml",
+    "file:src/demo/App.java",
+    "file:web/package.json",
+    "java-type:demo.App",
+    "module:.",
+    "module:web",
+    "package:demo",
+    "repo:root",
+    "service:compose:api",
+    "service:compose:db"
+  ]
+}

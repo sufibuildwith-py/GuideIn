@@ -1,0 +1,51 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:src/Partial.java",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "package:",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/Partial.java",
+      "type": "DECLARES",
+      "to": "java-type:Partial",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "package:",
+      "type": "CONTAINS",
+      "to": "java-type:Partial",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": [
+    {
+      "from": "file:src/Partial.java",
+      "type": "IMPORTS",
+      "to": "java-type:missing.api.Client",
+      "classification": "MUST_NOT_EXIST",
+      "reason": "Unresolved classpath is not a resolved symbol"
+    }
+  ]
+}

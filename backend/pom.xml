@@ -42,6 +42,15 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+            <version>3.28.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -152,7 +161,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
-                    <argLine>-javaagent:"${project.build.directory}/agents/opentelemetry-javaagent.jar" -Dotel.service.name=guidein-proof -Dotel.traces.exporter=none -Dotel.metrics.exporter=none -Dotel.logs.exporter=none -Dotel.instrumentation.methods.include=io.guidein.github.application.GitHubHydrator[processNext]</argLine>
+                    <argLine>-javaagent:"${project.build.directory}/agents/opentelemetry-javaagent.jar" -Dotel.service.name=guidein-proof -Dotel.traces.exporter=none -Dotel.metrics.exporter=none -Dotel.logs.exporter=none -Dotel.instrumentation.methods.include=io.guidein.github.application.GitHubHydrator[processNext];io.guidein.graph.application.DurableGraphBuilds[processNext];io.guidein.graph.application.GraphEngine[build];io.guidein.graph.application.GraphStore[publish];io.guidein.github.application.GitHubRepositoryMaterialSource[fetch]</argLine>
                     <groups>integration,security,concurrency</groups>
                 </configuration>
                 <executions>

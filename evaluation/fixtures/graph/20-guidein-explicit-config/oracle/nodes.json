@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "guidein.yaml",
+    "services/ledger/README.md",
+    "services/payments/README.md"
+  ],
+  "required_node_keys": [
+    "configuration:owner:payments",
+    "file:guidein.yaml",
+    "file:services/ledger/README.md",
+    "file:services/payments/README.md",
+    "module:.",
+    "module:guidein:ledger",
+    "module:guidein:payments",
+    "repo:root"
+  ]
+}

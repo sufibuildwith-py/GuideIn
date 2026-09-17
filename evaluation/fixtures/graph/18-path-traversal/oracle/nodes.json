@@ -1,0 +1,12 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "safe.txt"
+  ],
+  "required_node_keys": [
+    "file:safe.txt",
+    "module:.",
+    "repo:root"
+  ]
+}

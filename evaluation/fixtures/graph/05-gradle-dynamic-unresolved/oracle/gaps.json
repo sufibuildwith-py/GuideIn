@@ -1,0 +1,9 @@
+{
+  "schema_version": 2,
+  "required_categories": [
+    "GRADLE_DYNAMIC_CONFIGURATION"
+  ],
+  "allowed_categories": [
+    "GRADLE_DYNAMIC_CONFIGURATION"
+  ]
+}

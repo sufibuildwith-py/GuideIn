@@ -1,0 +1,15 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "openapi.json",
+    "schemas/order.json"
+  ],
+  "required_node_keys": [
+    "api:openapi.json",
+    "file:openapi.json",
+    "file:schemas/order.json",
+    "module:.",
+    "repo:root"
+  ]
+}

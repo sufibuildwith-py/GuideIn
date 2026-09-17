@@ -1,0 +1,19 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "src/main/java/demo/App.java",
+    "src/main/java/demo/core/Core.java"
+  ],
+  "required_node_keys": [
+    "file:src/main/java/demo/App.java",
+    "file:src/main/java/demo/core/Core.java",
+    "java-type:demo.App",
+    "java-type:demo.core.Core",
+    "module:.",
+    "package:demo",
+    "package:demo.core",
+    "package:java.util",
+    "repo:root"
+  ]
+}

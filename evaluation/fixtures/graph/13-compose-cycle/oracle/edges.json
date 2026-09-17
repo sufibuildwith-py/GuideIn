@@ -1,0 +1,64 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:compose.yaml",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:compose.yaml",
+      "type": "DECLARES",
+      "to": "service:compose:a",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:compose.yaml",
+      "type": "DECLARES",
+      "to": "service:compose:b",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:compose.yaml",
+      "type": "DECLARES",
+      "to": "service:compose:c",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "service:compose:a",
+      "type": "DEPENDS_ON",
+      "to": "service:compose:b",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "service:compose:b",
+      "type": "DEPENDS_ON",
+      "to": "service:compose:c",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "service:compose:c",
+      "type": "DEPENDS_ON",
+      "to": "service:compose:a",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": []
+}

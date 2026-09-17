@@ -1,0 +1,86 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:package-lock.json",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:package.json",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:packages/api/package.json",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:packages/core/package.json",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:packages/unrelated/package.json",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:packages/api",
+      "source": "NPM",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:packages/core",
+      "source": "NPM",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:packages/unrelated",
+      "source": "NPM",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:packages/api",
+      "type": "DEPENDS_ON",
+      "to": "module:packages/core",
+      "source": "NPM",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": [
+    {
+      "from": "module:packages/api",
+      "type": "DEPENDS_ON",
+      "to": "module:packages/unrelated",
+      "classification": "MUST_NOT_EXIST",
+      "reason": "Shared npm namespace is not dependency evidence"
+    }
+  ]
+}

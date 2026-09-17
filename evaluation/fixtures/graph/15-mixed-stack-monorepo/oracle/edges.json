@@ -1,0 +1,99 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:compose.yaml",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:pom.xml",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:src/demo/App.java",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:web/package.json",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:web",
+      "source": "NPM",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:web",
+      "type": "DEPENDS_ON",
+      "to": "external:npm:react",
+      "source": "NPM",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "package:demo",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/demo/App.java",
+      "type": "DECLARES",
+      "to": "java-type:demo.App",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "package:demo",
+      "type": "CONTAINS",
+      "to": "java-type:demo.App",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:compose.yaml",
+      "type": "DECLARES",
+      "to": "service:compose:api",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:compose.yaml",
+      "type": "DECLARES",
+      "to": "service:compose:db",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "service:compose:api",
+      "type": "DEPENDS_ON",
+      "to": "service:compose:db",
+      "source": "COMPOSE",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": []
+}

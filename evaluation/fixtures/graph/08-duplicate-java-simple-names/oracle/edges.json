@@ -1,0 +1,114 @@
+{
+  "schema_version": 2,
+  "status": "REVIEWED",
+  "required": [
+    {
+      "from": "repo:root",
+      "type": "CONTAINS",
+      "to": "module:.",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:src/Main.java",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:src/foo/a/User.java",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "file:src/foo/b/User.java",
+      "source": "FILE_TREE",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "package:",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/Main.java",
+      "type": "DECLARES",
+      "to": "java-type:Main",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "package:",
+      "type": "CONTAINS",
+      "to": "java-type:Main",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "package:foo.a",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/foo/a/User.java",
+      "type": "DECLARES",
+      "to": "java-type:foo.a.User",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "package:foo.a",
+      "type": "CONTAINS",
+      "to": "java-type:foo.a.User",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "module:.",
+      "type": "CONTAINS",
+      "to": "package:foo.b",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/foo/b/User.java",
+      "type": "DECLARES",
+      "to": "java-type:foo.b.User",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "package:foo.b",
+      "type": "CONTAINS",
+      "to": "java-type:foo.b.User",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    },
+    {
+      "from": "file:src/Main.java",
+      "type": "IMPORTS",
+      "to": "java-type:foo.a.User",
+      "source": "JAVA",
+      "classification": "REQUIRED_TRUSTED"
+    }
+  ],
+  "optional": [],
+  "must_not_exist": [
+    {
+      "from": "file:src/Main.java",
+      "type": "IMPORTS",
+      "to": "java-type:foo.b.User",
+      "classification": "MUST_NOT_EXIST",
+      "reason": "Same simple name and filename in another package is not resolution"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 2,
+  "authorship": "Source-reviewed expectations; no extractor output used",
+  "required_file_paths": [
+    "Broken.java",
+    "compose.yaml",
+    "package.json",
+    "pom.xml",
+    "src/Good.java"
+  ],
+  "required_node_keys": [
+    "file:Broken.java",
+    "file:compose.yaml",
+    "file:package.json",
+    "file:pom.xml",
+    "file:src/Good.java",
+    "java-type:Good",
+    "module:.",
+    "package:",
+    "repo:root"
+  ]
+}
