@@ -1,0 +1,208 @@
+{
+  "phase": 3,
+  "status": "PASS",
+  "phase_4_readiness": "READY",
+  "evaluated_at": "2026-09-17T23:12:46+05:30",
+  "build": {
+    "status": "PASS",
+    "command": "mvn --batch-mode --no-transfer-progress clean verify",
+    "elapsed": "31:52"
+  },
+  "tests": {
+    "total": 189,
+    "passed": 189,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "unit_architecture": 115,
+    "integration": 74,
+    "phase_1_postgresql": 18,
+    "phase_2_integration_adversarial": 31,
+    "phase_2_replay": 1,
+    "phase_3_postgresql": 24,
+    "phase_3_postgresql_seconds": 509.8,
+    "skipped_phase_3_proof_tests": 0
+  },
+  "environment": {
+    "postgresql": "PostgreSQL 18.6 on x86_64-pc-linux-musl",
+    "database": "guidein_phase3",
+    "migrations_applied_from_zero": 11,
+    "migration_failures": 0,
+    "checksum_failures": 0,
+    "manual_schema_patches": 0,
+    "flyway_validation": "PASS",
+    "migration_role": "guidein_migrator",
+    "runtime_role": "guidein_app",
+    "forced_rls_tables": 5
+  },
+  "graph_quality": {
+    "fixtures": 20,
+    "fixtures_passed": 20,
+    "oracle_required_relationships": 2132,
+    "oracle_required_relationships_found": 2132,
+    "known_explicit_dependency_recall": 1.0,
+    "trusted_edges": 2132,
+    "false_trusted_edges": 0,
+    "false_trusted_edge_rate": 0.0,
+    "expected_gaps": 10,
+    "unexpected_gaps": 0,
+    "heuristic_edges": 0,
+    "snapshot_reproducibility": 1.0
+  },
+  "extractors": {
+    "guidein_config": { "required_trusted": 5, "found": 5, "missed": 0, "false_trusted": 0, "gaps": 0, "status": "PASS" },
+    "maven": { "required_trusted": 9, "found": 9, "missed": 0, "false_trusted": 0, "gaps": 1, "status": "PASS" },
+    "gradle_static": { "required_trusted": 3, "found": 3, "missed": 0, "false_trusted": 0, "gaps": 2, "status": "PASS" },
+    "npm": { "required_trusted": 6, "found": 6, "missed": 0, "false_trusted": 0, "gaps": 1, "status": "PASS" },
+    "java": { "required_trusted": 27, "found": 27, "missed": 0, "false_trusted": 0, "gaps": 3, "status": "PASS" },
+    "openapi": { "required_trusted": 4, "found": 4, "missed": 0, "false_trusted": 0, "gaps": 1, "status": "PASS" },
+    "docker_compose": { "required_trusted": 13, "found": 13, "missed": 0, "false_trusted": 0, "gaps": 1, "status": "PASS" },
+    "deployment_manifests": { "required_trusted": 3, "found": 3, "missed": 0, "false_trusted": 0, "gaps": 0, "status": "PASS" },
+    "file_tree": { "required_trusted": 2062, "found": 2062, "missed": 0, "false_trusted": 0, "gaps": 1, "status": "PASS" }
+  },
+  "reproducibility": {
+    "runs": 100,
+    "identical_persisted_digests": 100,
+    "distinct_persisted_digests": 1,
+    "in_memory_persisted_mismatches": 0,
+    "snapshot_reproducibility": 1.0,
+    "elapsed_ms": 99902.2577,
+    "randomized_dimensions": [
+      "files",
+      "extractor_invocation",
+      "parallel_completion",
+      "nodes",
+      "edges",
+      "evidence",
+      "database_insertion"
+    ]
+  },
+  "security": {
+    "cross_tenant_graph_reads": 0,
+    "cross_tenant_graph_writes": 0,
+    "missing_tenant_context_exposures": 0,
+    "tenant_resource_existence_leaks": 0,
+    "unauthorized_repository_reads": 0,
+    "authoritative_llm_edges": 0,
+    "repository_code_executions": 0,
+    "remote_openapi_fetches": 0,
+    "path_escape_successes": 0,
+    "unsafe_path_blob_fetches": 0,
+    "symlink_blob_fetches": 0,
+    "unbounded_traversals": 0,
+    "incorrect_ready_partial_snapshots": 0,
+    "stale_configuration_publications": 0,
+    "simultaneous_valid_owners": 0,
+    "secret_or_source_content_leaks": 0
+  },
+  "security_proof_methods": {
+    "cross_tenant_and_missing_context": "graphRlsHidesEveryForeignTableAndMissingContextFailsClosed",
+    "write_integrity": "graphCompositeForeignKeysAndRlsRejectForeignWrites",
+    "existence_and_repository_scope": "signedHttpExplorerEnforcesTenantRepositoryAndSnapshotScopes",
+    "no_model_authority": "Graph oracle ran with model provider not configured; pure graph engine has no model dependency",
+    "no_repository_execution": "GraphOracleEvaluationTest process counter and static Gradle/deployment adversarial tests",
+    "remote_openapi_and_path_escape": "OpenAPI remote/escape adversaries plus hostileGitTreePathsAndSymlinksAreRejectedBeforeBlobRetrieval",
+    "ready_partial": "gapsPublishPartialNeverReady",
+    "stale_configuration": "workerCannotPublishAnOldRecipeUsingChangedExtractorConfiguration",
+    "secret_and_source_scan": "graphWorkflowTelemetryLinksIdentifiersAndDoesNotLeakCanaries"
+  },
+  "components": {
+    "immutable_snapshots": "PASS",
+    "canonical_node_identity": "PASS",
+    "canonical_edge_identity": "PASS",
+    "evidence_tracing": "PASS",
+    "gap_tracking": "PASS",
+    "postgresql_traversal": "PASS",
+    "cycle_handling": "PASS",
+    "graph_diff": "PASS",
+    "rls": "PASS",
+    "crash_recovery": "PASS",
+    "observability": "PASS"
+  },
+  "scale": {
+    "synthetic_performance_only": true,
+    "nodes": 50000,
+    "edges": 250000,
+    "evidence_rows": 250000,
+    "gaps": 0,
+    "candidate_generation_ms": 738.2605,
+    "canonicalization_ms": 4203.2825,
+    "canonical_digest_ms": 4203.2825,
+    "canonical_digest_note": "Digest generation is the measured canonicalization/hash stage and is included in canonicalization, not additive.",
+    "node_persistence_ms": 9810.8551,
+    "edge_persistence_ms": 72052.1615,
+    "evidence_persistence_ms": 52608.3592,
+    "gap_persistence_ms": 0.0367,
+    "validation_ms": 663.6974,
+    "snapshot_finalization_update_ms": 410.1466,
+    "commit_ms": 1.4622,
+    "persistence_ms": 151774.7806,
+    "publish_internal_ms": 151766.9399,
+    "total_build_ms": 156716.3236,
+    "database_bytes": 825693887,
+    "correctness": {
+      "duplicate_logical_edges": 0,
+      "orphan_edges": 0,
+      "trusted_edges_without_evidence": 0,
+      "canonical_digest_valid": true,
+      "status": "READY"
+    },
+    "query_plan_execution_ms": {
+      "canonical_node_lookup": 0.252,
+      "forward_edge_lookup": 0.179,
+      "reverse_edge_lookup": 0.190,
+      "type_query": 0.204,
+      "recursive_traversal": 54.696,
+      "evidence_coverage_validation": 87.337,
+      "diff_support": 480.270
+    },
+    "traversal_summary": {
+      "forward_max_p50_ms": 63.7604,
+      "forward_max_p95_ms": 84.046,
+      "reverse_max_p50_ms": 42.8745,
+      "reverse_max_p95_ms": 73.3644,
+      "overall_max_p50_ms": 63.7604,
+      "overall_max_p95_ms": 84.046,
+      "budget_exceeding_requests_truncated": true,
+      "unbounded_traversals": 0
+    },
+    "traversals": {
+      "forward_depth_1": { "p50_ms": 15.6484, "p95_ms": 53.8763, "visited_nodes": 7, "edges_scanned": 6 },
+      "forward_depth_2": { "p50_ms": 19.634, "p95_ms": 42.2107, "visited_nodes": 27, "edges_scanned": 41 },
+      "forward_depth_4": { "p50_ms": 22.4443, "p95_ms": 31.4279, "visited_nodes": 176, "edges_scanned": 429 },
+      "forward_over_budget": { "p50_ms": 63.7604, "p95_ms": 84.046, "visited_nodes": 1559, "edges_scanned": 5545, "truncated": true },
+      "reverse_depth_1": { "p50_ms": 15.0643, "p95_ms": 20.9032, "visited_nodes": 6, "edges_scanned": 5 },
+      "reverse_depth_2": { "p50_ms": 14.7352, "p95_ms": 16.9938, "visited_nodes": 21, "edges_scanned": 30 },
+      "reverse_depth_4": { "p50_ms": 18.5436, "p95_ms": 31.3994, "visited_nodes": 126, "edges_scanned": 280 },
+      "reverse_over_budget": { "p50_ms": 42.8745, "p95_ms": 73.3644, "visited_nodes": 1125, "edges_scanned": 3660, "truncated": true }
+    },
+    "diff": {
+      "nodes_added_expected": 500,
+      "nodes_added_observed": 500,
+      "nodes_removed_expected": 250,
+      "nodes_removed_observed": 250,
+      "edges_added_expected": 2000,
+      "edges_added_observed": 2000,
+      "edges_removed_expected": 1000,
+      "edges_removed_observed": 1000,
+      "exact_counts_matched": true,
+      "duration_ms": 1034.1408
+    }
+  },
+  "regressions": {
+    "phase_1": 0,
+    "phase_2": 0
+  },
+  "commits": {
+    "implementation": "cf1898d871a6fddd8f33829a2e62610c6bc33e18",
+    "evidence": "SELF: resolve to the commit containing this file"
+  },
+  "defect_journal": "../reports/PHASE_3_DEFECT_JOURNAL.md",
+  "unresolved_p0_p1_defects": [],
+  "limitations": [
+    "The 50k/250k fixture is synthetic performance evidence, not a repository-semantic accuracy corpus.",
+    "Static extractors intentionally surface unsupported or dynamic topology as gaps instead of executing repository code.",
+    "OpenAPI resolution is repository-local only; remote references are deliberately blocked.",
+    "The graph records structural evidence and does not make Phase-4 policy or release decisions."
+  ]
+}

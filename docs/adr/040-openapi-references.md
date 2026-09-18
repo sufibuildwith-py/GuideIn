@@ -1,6 +1,6 @@
 # OpenAPI reference security
 
-Status: Accepted for Phase 3 implementation; proof pending
+Status: Accepted; Phase 3 proof complete
 
 Date: 2026-09-16
 

@@ -8,7 +8,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0A0B0D,50:151419,100:D8B36A&height=180&section=header&text=GUIDEIN&fontSize=48&fontColor=EEE9DF&animation=fadeIn&fontAlignY=38&desc=TRUSTED%20CHANGE%20INTELLIGENCE&descSize=15&descAlignY=60&descColor=D8B36A" width="100%"/>
 
-[![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/) [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/) [![Status](https://img.shields.io/badge/Phase%202-Proven-D8B36A?style=for-the-badge)](#project-status)
+[![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://www.oracle.com/java/) [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/) [![Status](https://img.shields.io/badge/Phase%203-Proven-D8B36A?style=for-the-badge)](#project-status)
 
 <br>
 
@@ -42,7 +42,14 @@ flowchart LR
     X --> P[GitHub provider client]
     P --> N[Canonical normalization]
     N --> C[Immutable changes, files, CI, provenance]
-    C --> D[(PostgreSQL 18 + FORCE RLS)]
+    C --> S[Exact immutable source revision]
+    S --> E[Bounded static extractors]
+    E --> B[Canonical graph builder]
+    B --> V[Evidence + gap validation]
+    V --> D[(PostgreSQL 18 + FORCE RLS)]
+    D --> XG[Immutable graph snapshot]
+    XG --> T[Bounded traversal + deterministic diff]
+    T --> GE[Signed graph explorer API]
     A --> Z[Capability + repository scope authorization]
     Z --> D
     D --> L[Audit ledger + observability]
@@ -65,6 +72,19 @@ Tenant context is transaction-local and fails closed. Runtime database credentia
 - Rate-limit aware durable retry scheduling
 - PostgreSQL RLS, audit integrity, tenant isolation and OpenTelemetry correlation
 
+## ✦ Phase 3 capabilities
+
+- Immutable System Graph snapshots bound to exact repository source revisions
+- Static, bounded extraction for file trees, Maven, Gradle, npm, Java, OpenAPI, Docker Compose, deployment manifests and explicit GuideIn configuration
+- Canonical node/edge identity with deterministic evidence-set digests
+- Source evidence on every trusted relationship and explicit gaps for unresolved topology
+- Transactional publication, outbox integration, lease renewal/fencing and real process-crash recovery
+- Signed, repository-scoped graph explorer endpoints with indistinguishable not-found behavior
+- Cycle-safe PostgreSQL traversal with depth, node and edge budgets
+- Deterministic structural graph diff between immutable snapshots
+- PostgreSQL FORCE RLS and composite foreign keys across graph storage
+- No repository-controlled process execution, remote OpenAPI fetches or authoritative LLM edges
+
 ## ✦ Animation system
 
 The preserved desktop experience uses a restrained glossy-dark / ambient visual language. Animations are **slow · soft · subtle · responsive**:
@@ -85,17 +105,21 @@ These Swing animations remain part of the project's history and design direction
 
 - [x] Phase 1 platform kernel: identity, tenancy, authorization, RLS, audit, outbox, jobs, observability and health semantics
 - [x] Phase 2 GitHub trustworthy ingestion implementation
+- [x] Phase 3 System Graph V1 implementation and PostgreSQL proof
 - [x] PostgreSQL 18.6 proof from fresh databases and all migrations from zero
-- [x] 133/133 final clean tests, with no Phase-1 or Phase-2 proof skips
+- [x] 189/189 final clean tests, with no Phase-1, Phase-2 or Phase-3 proof skips
 - [x] 10,000-delivery replay with process-crash recovery and zero duplicate semantic effects
 - [x] JWT/HMAC adversarial tests, installation lifecycle tests and repository-scope tests
 - [x] PR, commit, file, CI and provenance normalization
+- [x] 20/20 graph oracles, 2,132/2,132 required relationships, zero false trusted edges
+- [x] 100/100 identical persisted graph digests across randomized execution order
+- [x] 50,000-node / 250,000-edge graph proof with bounded traversal and exact diff
 
-See the [Phase 2 evidence report](reports/PHASE_2_REPORT.md) and [machine-readable results](evaluation/phase2-results.json).
+See the [Phase 3 evidence report](reports/PHASE_3_REPORT.md), [machine-readable results](evaluation/phase3-results.json), and [defect journal](reports/PHASE_3_DEFECT_JOURNAL.md).
 
 ### Next planned work
 
-Phase 3 will be planned separately and is intentionally **not included in this repository state**. Future work may build graph consumers and policy views on top of the immutable, tenant-scoped evidence already captured here.
+Phase 4 is ready to be planned separately, but has not started. The proven System Graph remains an evidence substrate; this repository state does not yet implement Change Passports, blast-radius policy or release decisions.
 
 ## ✦ Run locally
 
